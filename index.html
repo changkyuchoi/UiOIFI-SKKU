@@ -29,6 +29,7 @@
 <body>
 
 <h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
+<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings.</p>
 <p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Each course links to the official course description. </p>
 <p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
 <p>For a bachelor's student, we recommend you to take major related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
@@ -89,8 +90,6 @@
     </select>
   </label>
 </div>
-
-<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings.</p>
 
 <table id="courseTable">
   <thead>
@@ -193,47 +192,64 @@
   };
 
   function filterTable() {
-    const rows = document.querySelectorAll("#courseTable tbody tr");
-    rows.forEach(row => {
-      const year = row.children[2].textContent.trim();
-      const semester = row.children[3].textContent.trim();
-      const campus = row.children[4].textContent.trim();
-      const track = row.children[5].textContent.trim();
-      const level = row.children[6].textContent.trim();
-      const credits = row.children[7].textContent.trim();
+    const allRows = document.querySelectorAll("#courseTable tbody tr");
+    allRows.forEach(row => {
+        // Always hide description rows during filtering
+        if (row.classList.contains("course-description-row")) {
+        row.style.display = "none";
+        row.querySelector(".course-description-cell").innerHTML = "";
+        return;
+        }
 
-      const show = (!filters.year.value || filters.year.value === year) &&
-                   (!filters.semester.value || filters.semester.value === semester) &&
-                   (!filters.campus.value || filters.campus.value === campus) &&
-                   (!filters.track.value || filters.track.value === track) &&
-                   (!filters.level.value || filters.level.value === level) &&
-                   (!filters.credits.value || filters.credits.value === credits);
+        // Apply filters to visible course rows only
+        const year = row.children[2].textContent.trim();
+        const semester = row.children[3].textContent.trim();
+        const campus = row.children[4].textContent.trim();
+        const track = row.children[5].textContent.trim();
+        const level = row.children[6].textContent.trim();
+        const credits = row.children[7].textContent.trim();
 
-      row.style.display = show ? "" : "none";
+        const show = (!filters.year.value || filters.year.value === year) &&
+                    (!filters.semester.value || filters.semester.value === semester) &&
+                    (!filters.campus.value || filters.campus.value === campus) &&
+                    (!filters.track.value || filters.track.value === track) &&
+                    (!filters.level.value || filters.level.value === level) &&
+                    (!filters.credits.value || filters.credits.value === credits);
+
+        row.style.display = show ? "" : "none";
     });
 
-    // Sort the visible rows after filtering
+    // Sort visible course rows (not descriptions)
     sortTableByCourseNumber();
-  }
+    }
 
-  function sortTableByCourseNumber() {
-    const table = document.getElementById("courseTable");
-    const tbody = table.querySelector("tbody");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
+    function sortTableByCourseNumber() {
+        const table = document.getElementById("courseTable");
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        
+        // Pair course rows with their following description rows
+        const rowPairs = [];
+        for (let i = 0; i < rows.length; i += 2) {
+            if (!rows[i + 1]) break; // avoid out-of-bounds
+            rowPairs.push([rows[i], rows[i + 1]]);
+        }
 
-    // Only include visible rows
-    const visibleRows = rows.filter(row => row.style.display !== "none");
+        // Filter and sort only those that are visible
+        const visiblePairs = rowPairs.filter(pair => pair[0].style.display !== "none");
+        visiblePairs.sort((a, b) => {
+            const courseA = a[0].cells[0].textContent.trim();
+            const courseB = b[0].cells[0].textContent.trim();
+            return courseA.localeCompare(courseB);
+        });
 
-    // Sort visible rows by course number
-    visibleRows.sort((a, b) => {
-      const courseA = a.cells[0].textContent.trim();
-      const courseB = b.cells[0].textContent.trim();
-      return courseA.localeCompare(courseB);
-    });
+        // Re-append sorted visible pairs
+        visiblePairs.forEach(pair => {
+            tbody.appendChild(pair[0]);
+            tbody.appendChild(pair[1]);
+        });
+    }
 
-    // Re-insert the sorted visible rows in order
-    visibleRows.forEach(row => tbody.appendChild(row));
-  }
 
   // Attach change listener to all filters
   Object.values(filters).forEach(select => {
