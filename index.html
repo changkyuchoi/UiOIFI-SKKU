@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Recommended SKKU Courses for UiO IFI Exchange Students</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
-    th { background-color: #f2f2f2; cursor: pointer; }
-    .filters { margin-bottom: 20px; }
-    .filters select { margin-right: 15px; }
-    .course-toggle {
-    background: none;
-    border: none;
-    color: #0645ad;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0;
-    font: inherit;
-    }
-    .course-description-cell {
-    background-color: #f9f9f9;
-    padding: 10px;
-    font-size: 0.95em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Recommended SKKU Courses for UiO IFI Exchange Students</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f2f2f2; cursor: pointer; }
+        .filters { margin-bottom: 20px; }
+        .filters select { margin-right: 15px; }
+        .course-toggle {
+        background: none;
+        border: none;
+        color: #0645ad;
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 0;
+        font: inherit;
+        }
+        .course-description-cell {
+        background-color: #f9f9f9;
+        padding: 10px;
+        font-size: 0.95em;
+        }
+    </style>
 </head>
 <body>
 
@@ -41,94 +41,94 @@
 </p>
 
 <div class="filters">
-  <label>Year:
+    <label>Year:
     <select id="yearFilter">
-      <option value="">All</option>
-      <option value="2025">2025</option>
+        <option value="">All</option>
+        <option value="2025">2025</option>
     </select>
-  </label>
-  <label>Semester:
+    </label>
+    <label>Semester:
     <select id="semesterFilter">
-      <option value="">All</option>
-      <option value="Autumn">Autumn</option>
-      <option value="Spring">Spring</option>
+        <option value="">All</option>
+        <option value="Autumn">Autumn</option>
+        <option value="Spring">Spring</option>
     </select>
-  </label>
-  <label>Campus:
+    </label>
+    <label>Campus:
     <select id="campusFilter">
-      <option value="">All</option>
-      <option value="Suwon">Suwon (Natural Sciences Campus)</option>
-      <option value="Seoul">Seoul (Humanities and Social Sciences Campus)</option>
+        <option value="">All</option>
+        <option value="Suwon">Suwon (Natural Sciences Campus)</option>
+        <option value="Seoul">Seoul (Humanities and Social Sciences Campus)</option>
     </select>
-  </label>
-  <label>Track:
+    </label>
+    <label>Track:
     <select id="trackFilter">
-      <option value="">All</option>
-      <option value="ML">Machine Learning (ML)</option>
-      <option value="PROSA">Programming and systems architecture (PROSA)</option>
-      <option value="LT">Language technology (LT)</option>
-      <option value="DBI">Design, Use, and Interaction (DBI)</option>
-      <option value="Math">Mathematics</option>
-      <option value="Others">Others</option>
+        <option value="">All</option>
+        <option value="ML">Machine Learning (ML)</option>
+        <option value="PROSA">Programming and systems architecture (PROSA)</option>
+        <option value="LT">Language technology (LT)</option>
+        <option value="DBI">Design, Use, and Interaction (DBI)</option>
+        <option value="Math">Mathematics</option>
+        <option value="Others">Others</option>
     </select>
-  </label>
-  <label>Level:
+    </label>
+    <label>Level:
     <select id="levelFilter">
-      <option value="">All</option>
-      <option value="BS+MS">Bachelor and Master</option>
-      <option value="BS">Bachelor only</option>
-      <option value="MS">Master only</option>
+        <option value="">All</option>
+        <option value="BS+MS">Bachelor and Master</option>
+        <option value="BS">Bachelor only</option>
+        <option value="MS">Master only</option>
     </select>
-  </label>
-  <label>Credits:
+    </label>
+    <label>Credits:
     <select id="creditsFilter">
-      <option value="">All</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="6">6</option>
+        <option value="">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="6">6</option>
     </select>
-  </label>
+    </label>
 </div>
 
 <table id="courseTable">
-  <thead>
+    <thead>
     <tr>
-      <th>Course Number</th>
-      <th>Title</th>
-      <th>Year</th>
-      <th>Semester</th>
-      <th>Campus</th>
-      <th>Track</th>
-      <th>Level</th>
-      <th>Credits</th>
+        <th>Course Number</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Semester</th>
+        <th>Campus</th>
+        <th>Track</th>
+        <th>Level</th>
+        <th>Credits</th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <tr>
-      <td>
-        <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
-          GELT002
+        <td>
+        <button class="course-toggle" data-description="">
+            GELT002
         </button>
-      </td>
-      <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-      <td>2025</td>
-      <td>Spring</td>
-      <td>Suwon</td>
-      <td>Others</td>
-      <td>BS</td>
-      <td>1</td>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
     </tr>
     <tr class="course-description-row" style="display: none;">
-      <td colspan="8" class="course-description-cell"></td>
+        <td colspan="8" class="course-description-cell"></td>
     </tr>
 
     <tr>
         <td>
-          <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+            <button class="course-toggle" data-description="">
             GELT002
-          </button>
+            </button>
         </td>
         <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
         <td>2025</td>
@@ -137,16 +137,16 @@
         <td>Others</td>
         <td>BS</td>
         <td>1</td>
-      </tr>
-      <tr class="course-description-row" style="display: none;">
+        </tr>
+        <tr class="course-description-row" style="display: none;">
         <td colspan="8" class="course-description-cell"></td>
-      </tr>
+        </tr>
 
-      <tr>
+        <tr>
         <td>
-          <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+            <button class="course-toggle" data-description="">
             GELT002
-          </button>
+            </button>
         </td>
         <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
         <td>2025</td>
@@ -155,43 +155,80 @@
         <td>Others</td>
         <td>BS</td>
         <td>1</td>
-      </tr>
-      <tr class="course-description-row" style="display: none;">
-        <td colspan="8" class="course-description-cell"></td>
-      </tr>
-  
-      <tr>
-          <td>
-            <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
-              GELT002
-            </button>
-          </td>
-          <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-          <td>2025</td>
-          <td>Autumn</td>
-          <td>Seoul</td>
-          <td>Others</td>
-          <td>BS</td>
-          <td>1</td>
         </tr>
         <tr class="course-description-row" style="display: none;">
-          <td colspan="8" class="course-description-cell"></td>
+        <td colspan="8" class="course-description-cell"></td>
         </tr>
-    
-  </tbody>
+
+        <tr>
+            <td>
+            <button class="course-toggle" data-description="">
+                GELT002
+            </button>
+            </td>
+            <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+            <td>2025</td>
+            <td>Autumn</td>
+            <td>Seoul</td>
+            <td>Others</td>
+            <td>BS</td>
+            <td>1</td>
+        </tr>
+        <tr class="course-description-row" style="display: none;">
+            <td colspan="8" class="course-description-cell"></td>
+        </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT093
+            </button>
+        </td>
+        <td>Korean Language and Culture</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>2</td>
+        </tr>
+        <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+        </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT093
+            </button>
+        </td>
+        <td>Korean Language and Culture</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>2</td>
+        </tr>
+        <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+        </tr>
+        
+
+    </tbody>
  </table>
 
 <script>
-  const filters = {
+    const filters = {
     year: document.getElementById('yearFilter'),
     semester: document.getElementById('semesterFilter'),
     campus: document.getElementById('campusFilter'),
     track: document.getElementById('trackFilter'),
     level: document.getElementById('levelFilter'),
     credits: document.getElementById('creditsFilter')
-  };
+    };
 
-  function filterTable() {
+    function filterTable() {
     const allRows = document.querySelectorAll("#courseTable tbody tr");
     allRows.forEach(row => {
         // Always hide description rows during filtering
@@ -251,37 +288,37 @@
     }
 
 
-  // Attach change listener to all filters
-  Object.values(filters).forEach(select => {
+    // Attach change listener to all filters
+    Object.values(filters).forEach(select => {
     select.addEventListener("change", filterTable);
-  });
+    });
 
-  // Initial sort on page load
-  window.addEventListener("DOMContentLoaded", () => {
+    // Initial sort on page load
+    window.addEventListener("DOMContentLoaded", () => {
     filterTable(); // ensures sort + filter work immediately
-  });
+    });
 </script>
 
 <script>
     document.querySelectorAll('.course-toggle').forEach(button => {
-      button.addEventListener('click', () => {
+        button.addEventListener('click', () => {
         const row = button.closest('tr');
         const nextRow = row.nextElementSibling;
         const descCell = nextRow.querySelector('.course-description-cell');
         const isVisible = nextRow.style.display === '';
-  
+
         // Toggle visibility
         if (isVisible) {
-          nextRow.style.display = 'none';
-          descCell.innerHTML = '';
+            nextRow.style.display = 'none';
+            descCell.innerHTML = '';
         } else {
-          nextRow.style.display = '';
-          descCell.innerHTML = `<strong>Course Description:</strong> ${button.dataset.description}`;
+            nextRow.style.display = '';
+            descCell.innerHTML = `<strong>Course Description:</strong> ${button.dataset.description}`;
         }
-      });
+        });
     });
-  </script>
-  
+</script>
+
 
 </body>
 </html>
