@@ -115,25 +115,25 @@
   };
   
   function filterTable() {
-  const rows = document.querySelectorAll("#courseTable tbody tr");
-  rows.forEach(row => {
-    const year = row.children[2].textContent.trim();     // Column index 2
-    const semester = row.children[3].textContent.trim(); // Column index 3
-    const campus = row.children[4].textContent.trim();   // Column index 4
-    const track = row.children[5].textContent.trim();    // Column index 5
-    const level = row.children[6].textContent.trim();    // Column index 6
-    const credits = row.children[7].textContent.trim();  // Column index 7
+    const rows = document.querySelectorAll("#courseTable tbody tr");
+    rows.forEach(row => {
+        const year = row.children[2].textContent.trim();     // Column index 2
+        const semester = row.children[3].textContent.trim(); // Column index 3
+        const campus = row.children[4].textContent.trim();   // Column index 4
+        const track = row.children[5].textContent.trim();    // Column index 5
+        const level = row.children[6].textContent.trim();    // Column index 6
+        const credits = row.children[7].textContent.trim();  // Column index 7
 
-    const show = (!filters.year.value || filters.year.value === year) &&
-                 (!filters.semester.value || filters.semester.value === semester) &&
-                 (!filters.campus.value || filters.campus.value === campus) &&
-                 (!filters.track.value || filters.track.value === track) &&
-                 (!filters.level.value || filters.level.value === level) &&
-                 (!filters.credits.value || filters.credits.value === credits);
+        const show = (!filters.year.value || filters.year.value === year) &&
+                    (!filters.semester.value || filters.semester.value === semester) &&
+                    (!filters.campus.value || filters.campus.value === campus) &&
+                    (!filters.track.value || filters.track.value === track) &&
+                    (!filters.level.value || filters.level.value === level) &&
+                    (!filters.credits.value || filters.credits.value === credits);
 
-    row.style.display = show ? "" : "none";
-  });
-}
+        row.style.display = show ? "" : "none";
+        });
+    }
 
   Object.values(filters).forEach(select => {
     select.addEventListener("change", filterTable);
