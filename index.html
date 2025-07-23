@@ -18,7 +18,15 @@
 <p>This page lists selected courses at SKKU that are relevant for UiO exchange students. Each course links to the official course description.</p>
 
 <div class="filters">
-  <label>Semester:
+    <label>Year:
+        <select id="yearFilter">
+          <option value="">All</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </label>
+    <label>Semester:
     <select id="semesterFilter">
       <option value="">All</option>
       <option value="Autumn">Autumn</option>
@@ -41,6 +49,16 @@
       <option value="Other">Other</option>
     </select>
   </label>
+  <label>Credits:
+    <select id="creditsFilter">
+      <option value="">All</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="6">6</option>
+    </select>
+  </label>
+
 </div>
 
 <table id="courseTable">
@@ -48,31 +66,24 @@
     <tr>
       <th>Course Number</th>
       <th>Title</th>
+      <th>Year</th>
       <th>Semester</th>
-      <th>Credits</th>
       <th>Campus</th>
       <th>Track</th>
+      <th>Credits</th>
     </tr>
   </thead>
   <tbody>
     <!-- Example entries -->
     <tr>
-      <td><a href="https://example.com/course/12345" target="_blank">MATH123</a></td>
-      <td>Linear Algebra</td>
-      <td>Autumn</td>
-      <td>3</td>
-      <td>Seoul</td>
-      <td>Math</td>
-    </tr>
-    <tr>
-      <td><a href="https://example.com/course/23456" target="_blank">ECON201</a></td>
-      <td>Microeconomics</td>
-      <td>Spring</td>
-      <td>3</td>
-      <td>Suwon</td>
-      <td>Economics</td>
-    </tr>
-    <!-- Add more rows here -->
+        <td><a href="https://example.com/course/12345" target="_blank">MATH123</a></td>
+        <td>Linear Algebra</td>
+        <td>2025</td> <!-- NEW -->
+        <td>Autumn</td>
+        <td>Seoul</td>
+        <td>Math</td>
+        <td>3</td>
+    </tr>    <!-- Add more rows here -->
   </tbody>
 </table>
 
@@ -80,7 +91,8 @@
   const filters = {
     semester: document.getElementById('semesterFilter'),
     campus: document.getElementById('campusFilter'),
-    track: document.getElementById('trackFilter')
+    track: document.getElementById('trackFilter'),
+    credits: document.getElementById('creditsFilter')
   };
 
   function filterTable() {
