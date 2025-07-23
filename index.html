@@ -15,15 +15,13 @@
 <body>
 
 <h1>SKKU Courses for UiO Exchange Students</h1>
-<p>This page lists selected courses at SKKU that are relevant for UiO exchange students. Each course links to the official course description.</p>
+<p>This page lists selected courses at SKKU that are relevant for UiO exchange students. Each course links to the official course description. Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
 
 <div class="filters">
     <label>Year:
         <select id="yearFilter">
           <option value="">All</option>
           <option value="2025">2025</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
         </select>
       </label>
     <label>Semester:
@@ -36,17 +34,19 @@
   <label>Campus:
     <select id="campusFilter">
       <option value="">All</option>
-      <option value="Seoul">Seoul</option>
-      <option value="Suwon">Suwon</option>
+      <option value="Suwon (Natural Sciences Campus)">Suwon</option>
+      <option value="Seoul (Humanities and Social Sciences Campus)">Seoul</option>
     </select>
   </label>
   <label>Track:
     <select id="trackFilter">
       <option value="">All</option>
-      <option value="Math">Math</option>
-      <option value="Economics">Economics</option>
-      <option value="AI">AI</option>
-      <option value="Other">Other</option>
+      <option value="Machine Learning (ML)">ML</option>
+      <option value="Programming and systems architecture (PROSA)">PROSA</option>
+      <option value="Language technology (LT)">LT</option>
+      <option value="Design, Use, and Interaction">DBI</option>
+      <option value="Mathematics">Math</option>
+      <option value="Others">Others</option>
     </select>
   </label>
   <label>Credits:
@@ -89,6 +89,7 @@
 
 <script>
   const filters = {
+    year: document.getElementById('yearFilter'),
     semester: document.getElementById('semesterFilter'),
     campus: document.getElementById('campusFilter'),
     track: document.getElementById('trackFilter'),
