@@ -10,6 +10,20 @@
     th { background-color: #f2f2f2; cursor: pointer; }
     .filters { margin-bottom: 20px; }
     .filters select { margin-right: 15px; }
+    .course-toggle {
+    background: none;
+    border: none;
+    color: #0645ad;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    }
+    .course-description-cell {
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-size: 0.95em;
+    }
   </style>
 </head>
 <body>
@@ -91,9 +105,14 @@
       <th>Credits</th>
     </tr>
   </thead>
+
   <tbody>
     <tr>
-      <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
+      <td>
+        <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+          GELT002
+        </button>
+      </td>
       <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
       <td>2025</td>
       <td>Spring</td>
@@ -102,19 +121,66 @@
       <td>BS</td>
       <td>1</td>
     </tr>
-    <tr>
-      <td><a href="https://example.com/course/GELT093" target="_blank">GELT093</a></td>
-      <td>Korean Language and Culture</td>
-      <td>2025</td>
-      <td>Spring</td>
-      <td>Seoul</td>
-      <td>Others</td>
-      <td>BS+MS</td>
-      <td>2</td>
+    <tr class="course-description-row" style="display: none;">
+      <td colspan="8" class="course-description-cell"></td>
     </tr>
-    <!-- Add more rows here -->
+
+    <tr>
+        <td>
+          <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+            GELT002
+          </button>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+      </tr>
+      <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+      </tr>
+
+      <tr>
+        <td>
+          <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+            GELT002
+          </button>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+      </tr>
+      <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+      </tr>
+  
+      <tr>
+          <td>
+            <button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">
+              GELT002
+            </button>
+          </td>
+          <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+          <td>2025</td>
+          <td>Autumn</td>
+          <td>Seoul</td>
+          <td>Others</td>
+          <td>BS</td>
+          <td>1</td>
+        </tr>
+        <tr class="course-description-row" style="display: none;">
+          <td colspan="8" class="course-description-cell"></td>
+        </tr>
+    
   </tbody>
-</table>
+ </table>
 
 <script>
   const filters = {
@@ -179,6 +245,27 @@
     filterTable(); // ensures sort + filter work immediately
   });
 </script>
+
+<script>
+    document.querySelectorAll('.course-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const row = button.closest('tr');
+        const nextRow = row.nextElementSibling;
+        const descCell = nextRow.querySelector('.course-description-cell');
+        const isVisible = nextRow.style.display === '';
+  
+        // Toggle visibility
+        if (isVisible) {
+          nextRow.style.display = 'none';
+          descCell.innerHTML = '';
+        } else {
+          nextRow.style.display = '';
+          descCell.innerHTML = `<strong>Course Description:</strong> ${button.dataset.description}`;
+        }
+      });
+    });
+  </script>
+  
 
 </body>
 </html>
