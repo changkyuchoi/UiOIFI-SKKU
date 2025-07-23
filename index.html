@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SKKU Exchange Courses for UiO Students</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #f2f2f2; cursor: pointer; }
+    .filters { margin-bottom: 20px; }
+    .filters select { margin-right: 15px; }
+  </style>
+</head>
+<body>
+
+<h1>SKKU Courses for UiO Exchange Students</h1>
+<p>This page lists selected courses at SKKU that are relevant for UiO exchange students. Each course links to the official course description.</p>
+
+<div class="filters">
+  <label>Semester:
+    <select id="semesterFilter">
+      <option value="">All</option>
+      <option value="Autumn">Autumn</option>
+      <option value="Spring">Spring</option>
+    </select>
+  </label>
+  <label>Campus:
+    <select id="campusFilter">
+      <option value="">All</option>
+      <option value="Seoul">Seoul</option>
+      <option value="Suwon">Suwon</option>
+    </select>
+  </label>
+  <label>Track:
+    <select id="trackFilter">
+      <option value="">All</option>
+      <option value="Math">Math</option>
+      <option value="Economics">Economics</option>
+      <option value="AI">AI</option>
+      <option value="Other">Other</option>
+    </select>
+  </label>
+</div>
+
+<table id="courseTable">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <th>Semester</th>
+      <th>Credits</th>
+      <th>Campus</th>
+      <th>Track</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Example entries -->
+    <tr>
+      <td><a href="https://example.com/course/12345" target="_blank">MATH123</a></td>
+      <td>Linear Algebra</td>
+      <td>Autumn</td>
+      <td>3</td>
+      <td>Seoul</td>
+      <td>Math</td>
+    </tr>
+    <tr>
+      <td><a href="https://example.com/course/23456" target="_blank">ECON201</a></td>
+      <td>Microeconomics</td>
+      <td>Spring</td>
+      <td>3</td>
+      <td>Suwon</td>
+      <td>Economics</td>
+    </tr>
+    <!-- Add more rows here -->
+  </tbody>
+</table>
+
+<script>
+  const filters = {
+    semester: document.getElementById('semesterFilter'),
+    campus: document.getElementById('campusFilter'),
+    track: document.getElementById('trackFilter')
+  };
+
+  function filterTable() {
+    const rows = document.querySelectorAll("#courseTable tbody tr");
+    rows.forEach(row => {
+      const semester = row.children[2].textContent.trim();
+      const campus = row.children[4].textContent.trim();
+      const track = row.children[5].textContent.trim();
+
+      const show = (!filters.semester.value || filters.semester.value === semester) &&
+                   (!filters.campus.value || filters.campus.value === campus) &&
+                   (!filters.track.value || filters.track.value === track);
+
+      row.style.display = show ? "" : "none";
+    });
+  }
+
+  Object.values(filters).forEach(select => {
+    select.addEventListener("change", filterTable);
+  });
+</script>
+
+</body>
+</html>
