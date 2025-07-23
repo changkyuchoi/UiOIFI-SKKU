@@ -56,6 +56,14 @@
       <option value="Others">Others</option>
     </select>
   </label>
+  <label>Level:
+    <select id="levelFilter">
+      <option value="">All</option>
+      <option value="BS/MS">Bechelor and Master</option>
+      <option value="BS">Bechelor only</option>
+      <option value="MS">Master only</option>
+    </select>
+  </label>
   <label>Credits:
     <select id="creditsFilter">
       <option value="">All</option>
@@ -77,6 +85,7 @@
       <th>Semester</th>
       <th>Campus</th>
       <th>Track</th>
+      <th>Level</th>
       <th>Credits</th>
     </tr>
   </thead>
@@ -89,6 +98,7 @@
         <td>Autumn</td>
         <td>Seoul</td>
         <td>PROSA</td>
+        <td>BS</td>
         <td>3</td>
     </tr>    <!-- Add more rows here -->
   </tbody>
@@ -100,6 +110,7 @@
     semester: document.getElementById('semesterFilter'),
     campus: document.getElementById('campusFilter'),
     track: document.getElementById('trackFilter'),
+    level: document.getElementById('levelFilter'),
     credits: document.getElementById('creditsFilter')
   };
 
