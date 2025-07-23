@@ -23,15 +23,16 @@
     <a href="https://www.uio.no/studier/utveksling/avtaler/asia/sor-korea/sungkyunkwan/mn.html" target="_blank">
       UiO's SKKU exchange page.
     </a>
-  </p>
+</p>
+
 <div class="filters">
-    <label>Year:
-        <select id="yearFilter">
-          <option value="">All</option>
-          <option value="2025">2025</option>
-        </select>
-      </label>
-    <label>Semester:
+  <label>Year:
+    <select id="yearFilter">
+      <option value="">All</option>
+      <option value="2025">2025</option>
+    </select>
+  </label>
+  <label>Semester:
     <select id="semesterFilter">
       <option value="">All</option>
       <option value="Autumn">Autumn</option>
@@ -59,8 +60,8 @@
   <label>Level:
     <select id="levelFilter">
       <option value="">All</option>
-      <option value="BS+MS">Bechelor and Master</option>
-      <option value="BS">Bechelor only</option>
+      <option value="BS+MS">Bachelor and Master</option>
+      <option value="BS">Bachelor only</option>
       <option value="MS">Master only</option>
     </select>
   </label>
@@ -73,7 +74,6 @@
       <option value="6">6</option>
     </select>
   </label>
-
 </div>
 
 <p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings.</p>
@@ -92,82 +92,29 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Example entries -->
     <tr>
-        <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
-        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-        <td>2025</td>
-        <td>Spring</td>
-        <td>Suwon</td> <!-- Campus unknown -->
-        <td>Others</td>
-        <td>BS</td>
-        <td>1</td>
-      </tr>
+      <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
+      <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+      <td>2025</td>
+      <td>Spring</td>
+      <td>Suwon</td>
+      <td>Others</td>
+      <td>BS</td>
+      <td>1</td>
+    </tr>
     <tr>
-        <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
-        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-        <td>2025</td>
-        <td>Spring</td>
-        <td>Seoul</td> <!-- Campus unknown -->
-        <td>Others</td>
-        <td>BS</td>
-        <td>1</td>
-      </tr>  
-    <tr>
-        <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
-        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-        <td>2025</td>
-        <td>Autumn</td>
-        <td>Suwon</td> <!-- Campus unknown -->
-        <td>Others</td>
-        <td>BS</td>
-        <td>1</td>
-      </tr>
-    <tr>
-        <td><a href="https://example.com/course/GELT002" target="_blank">GELT002</a></td>
-        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
-        <td>2025</td>
-        <td>Autumn</td>
-        <td>Seoul</td> <!-- Campus unknown -->
-        <td>Others</td>
-        <td>BS</td>
-        <td>1</td>
-      </tr>  
-    <tr>
-        <td><a href="https://example.com/course/GELT093" target="_blank">GELT093</a></td>
-        <td>Korean Language and Culture</td>
-        <td>2025</td>
-        <td>Spring</td>
-        <td></td>
-        <td>Others</td>
-        <td>BS+MS</td>
-        <td>2</td>
-      </tr>
+      <td><a href="https://example.com/course/GELT093" target="_blank">GELT093</a></td>
+      <td>Korean Language and Culture</td>
+      <td>2025</td>
+      <td>Spring</td>
+      <td>Seoul</td>
+      <td>Others</td>
+      <td>BS+MS</td>
+      <td>2</td>
+    </tr>
+    <!-- Add more rows here -->
   </tbody>
 </table>
-
-<script>
-    function sortTableByCourseNumber() {
-      const table = document.getElementById("courseTable");
-      const tbody = table.querySelector("tbody");
-      const rows = Array.from(tbody.querySelectorAll("tr"));
-  
-      rows.sort((a, b) => {
-        const courseA = a.cells[0].textContent.trim();
-        const courseB = b.cells[0].textContent.trim();
-        return courseA.localeCompare(courseB);
-      });
-  
-      // Re-insert sorted rows
-      rows.forEach(row => tbody.appendChild(row));
-    }
-  
-    // Call the sort function after page load
-    window.addEventListener("DOMContentLoaded", sortTableByCourseNumber);
-  </script>
-  
-
-
 
 <script>
   const filters = {
@@ -178,30 +125,58 @@
     level: document.getElementById('levelFilter'),
     credits: document.getElementById('creditsFilter')
   };
-  
+
   function filterTable() {
     const rows = document.querySelectorAll("#courseTable tbody tr");
     rows.forEach(row => {
-        const year = row.children[2].textContent.trim();     // Column index 2
-        const semester = row.children[3].textContent.trim(); // Column index 3
-        const campus = row.children[4].textContent.trim();   // Column index 4
-        const track = row.children[5].textContent.trim();    // Column index 5
-        const level = row.children[6].textContent.trim();    // Column index 6
-        const credits = row.children[7].textContent.trim();  // Column index 7
+      const year = row.children[2].textContent.trim();
+      const semester = row.children[3].textContent.trim();
+      const campus = row.children[4].textContent.trim();
+      const track = row.children[5].textContent.trim();
+      const level = row.children[6].textContent.trim();
+      const credits = row.children[7].textContent.trim();
 
-        const show = (!filters.year.value || filters.year.value === year) &&
-                    (!filters.semester.value || filters.semester.value === semester) &&
-                    (!filters.campus.value || filters.campus.value === campus) &&
-                    (!filters.track.value || filters.track.value === track) &&
-                    (!filters.level.value || filters.level.value === level) &&
-                    (!filters.credits.value || filters.credits.value === credits);
+      const show = (!filters.year.value || filters.year.value === year) &&
+                   (!filters.semester.value || filters.semester.value === semester) &&
+                   (!filters.campus.value || filters.campus.value === campus) &&
+                   (!filters.track.value || filters.track.value === track) &&
+                   (!filters.level.value || filters.level.value === level) &&
+                   (!filters.credits.value || filters.credits.value === credits);
 
-        row.style.display = show ? "" : "none";
-        });
-    }
+      row.style.display = show ? "" : "none";
+    });
 
+    // Sort the visible rows after filtering
+    sortTableByCourseNumber();
+  }
+
+  function sortTableByCourseNumber() {
+    const table = document.getElementById("courseTable");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    // Only include visible rows
+    const visibleRows = rows.filter(row => row.style.display !== "none");
+
+    // Sort visible rows by course number
+    visibleRows.sort((a, b) => {
+      const courseA = a.cells[0].textContent.trim();
+      const courseB = b.cells[0].textContent.trim();
+      return courseA.localeCompare(courseB);
+    });
+
+    // Re-insert the sorted visible rows in order
+    visibleRows.forEach(row => tbody.appendChild(row));
+  }
+
+  // Attach change listener to all filters
   Object.values(filters).forEach(select => {
     select.addEventListener("change", filterTable);
+  });
+
+  // Initial sort on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    filterTable(); // ensures sort + filter work immediately
   });
 </script>
 
