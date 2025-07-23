@@ -147,6 +147,29 @@
 </table>
 
 <script>
+    function sortTableByCourseNumber() {
+      const table = document.getElementById("courseTable");
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+  
+      rows.sort((a, b) => {
+        const courseA = a.cells[0].textContent.trim();
+        const courseB = b.cells[0].textContent.trim();
+        return courseA.localeCompare(courseB);
+      });
+  
+      // Re-insert sorted rows
+      rows.forEach(row => tbody.appendChild(row));
+    }
+  
+    // Call the sort function after page load
+    window.addEventListener("DOMContentLoaded", sortTableByCourseNumber);
+  </script>
+  
+
+
+
+<script>
   const filters = {
     year: document.getElementById('yearFilter'),
     semester: document.getElementById('semesterFilter'),
