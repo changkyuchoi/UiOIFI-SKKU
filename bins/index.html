@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SKKU Courses for UiO IFI Exchange Students</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #f2f2f2; cursor: pointer; }
+    .filters { margin-bottom: 20px; }
+    .filters select { margin-right: 15px; }
+    .course-toggle {
+      background: none;
+      border: none;
+      color: #0645ad;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      font: inherit;
+    }
+    .course-description-cell {
+      background-color: #f9f9f9;
+      padding: 10px;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
+  <p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings (GLS).</p>
+  <p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Each course number links to the course description. </p>
+  <p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
+  <p>For a bachelor's student, we recommend you to take major-related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
+  <p>For a master's student, we recommend you to take major-related courses for 6 credits, and 3 for the MS-level math courses.</p>
+  <p>For more information, visit 
+    <a href="https://www.uio.no/studier/utveksling/avtaler/asia/sor-korea/sungkyunkwan/mn.html" target="_blank">
+      UiO's SKKU exchange page.
+    </a>
+  </p>
+
+  <div class="filters">
+    <label>Year:
+      <select id="yearFilter">
+        <option value="">All</option>
+        <option value="2025">2025</option>
+      </select>
+    </label>
+    <label>Semester:
+      <select id="semesterFilter">
+        <option value="">All</option>
+        <option value="Spring">Spring</option>
+        <option value="Autumn">Autumn</option>
+      </select>
+    </label>
+    <label>Campus:
+      <select id="campusFilter">
+        <option value="">All</option>
+        <option value="Suwon">Suwon</option>
+        <option value="Seoul">Seoul</option>
+      </select>
+    </label>
+    <label>Track:
+      <select id="trackFilter">
+        <option value="">All</option>
+        <option value="Others">Others</option>
+      </select>
+    </label>
+    <label>Level:
+      <select id="levelFilter">
+        <option value="">All</option>
+        <option value="BS">Bachelor only</option>
+      </select>
+    </label>
+    <label>Credits:
+      <select id="creditsFilter">
+        <option value="">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+    </label>
+  </div>
+
+  <table id="courseTable">
+    <thead>
+      <tr>
+        <th>Course Number</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Semester</th>
+        <th>Campus</th>
+        <th>Track</th>
+        <th>Level</th>
+        <th>Credits</th>
+      </tr>
+    </thead>
+    <tbody id="courseTableBody">
+      <tr>
+        <td><button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">GELT002</button></td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+      </tr>
+      <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+      </tr>
+      <tr>
+        <td><button class="course-toggle" data-description="Introductory Korean culture and language, focused on basic daily expressions.">GELT093</button></td>
+        <td>Korean Language and Culture</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>2</td>
+      </tr>
+      <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    const filters = {
+      year: document.getElementById('yearFilter'),
+      semester: document.getElementById('semesterFilter'),
+      campus: document.getElementById('campusFilter'),
+      track: document.getElementById('trackFilter'),
+      level: document.getElementById('levelFilter'),
+      credits: document.getElementById('creditsFilter')
+    };
+
+    function filterTable() {
+      const allRows = document.querySelectorAll("#courseTable tbody tr");
+      for (let i = 0; i < allRows.length; i += 2) {
+        const row = allRows[i];
+        const descRow = allRows[i + 1];
+
+        const year = row.children[2].textContent.trim();
+        const semester = row.children[3].textContent.trim();
+        const campus = row.children[4].textContent.trim();
+        const track = row.children[5].textContent.trim();
+        const level = row.children[6].textContent.trim();
+        const credits = row.children[7].textContent.trim();
+
+        const show = (!filters.year.value || filters.year.value === year) &&
+                     (!filters.semester.value || filters.semester.value === semester) &&
+                     (!filters.campus.value || filters.campus.value === campus) &&
+                     (!filters.track.value || filters.track.value === track) &&
+                     (!filters.level.value || filters.level.value === level) &&
+                     (!filters.credits.value || filters.credits.value === credits);
+
+        row.style.display = descRow.style.display = show ? "" : "none";
+      }
+
+      sortVisibleCourses();
+    }
+
+    function sortVisibleCourses() {
+      const tbody = document.getElementById("courseTableBody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const pairs = [];
+      for (let i = 0; i < rows.length; i += 2) {
+        pairs.push([rows[i], rows[i + 1]]);
+      }
+
+      const visiblePairs = pairs.filter(([course]) => course.style.display !== "none");
+      visiblePairs.sort((a, b) => {
+        const aText = a[0].cells[0].textContent.trim();
+        const bText = b[0].cells[0].textContent.trim();
+        return aText.localeCompare(bText);
+      });
+
+      visiblePairs.forEach(([row, desc]) => {
+        tbody.appendChild(row);
+        tbody.appendChild(desc);
+      });
+    }
+
+    document.querySelectorAll('.course-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const row = button.closest('tr');
+        const nextRow = row.nextElementSibling;
+        const cell = nextRow.querySelector('.course-description-cell');
+        const visible = nextRow.style.display === '';
+        nextRow.style.display = visible ? 'none' : '';
+        cell.innerHTML = visible ? '' : `<strong>Description:</strong> ${button.dataset.description}`;
+      });
+    });
+
+    Object.values(filters).forEach(select => {
+      select.addEventListener("change", filterTable);
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      filterTable();
+    });
+  </script>
+</body>
+</html>

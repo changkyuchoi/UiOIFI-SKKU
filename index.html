@@ -1,89 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>SKKU Courses for UiO IFI Exchange Students</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
-    th { background-color: #f2f2f2; cursor: pointer; }
-    .filters { margin-bottom: 20px; }
-    .filters select { margin-right: 15px; }
-    .course-toggle {
-      background: none;
-      border: none;
-      color: #0645ad;
-      text-decoration: underline;
-      cursor: pointer;
-      padding: 0;
-      font: inherit;
-    }
-    .course-description-cell {
-      background-color: #f9f9f9;
-      padding: 10px;
-      font-size: 0.95em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Recommended SKKU Courses for UiO IFI Exchange Students</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f2f2f2; cursor: pointer; }
+        .filters { margin-bottom: 20px; }
+        .filters select { margin-right: 15px; }
+        .course-toggle {
+        background: none;
+        border: none;
+        color: #0645ad;
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 0;
+        font: inherit;
+        }
+        .course-description-cell {
+        background-color: #f9f9f9;
+        padding: 10px;
+        font-size: 0.95em;
+        }
+    </style>
 </head>
 <body>
-  <h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
-  <p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings (GLS).</p>
-  <p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Each course number links to the course description. </p>
-  <p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
-  <p>For a bachelor's student, we recommend you to take major-related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
-  <p>For a master's student, we recommend you to take major-related courses for 6 credits, and 3 for the MS-level math courses.</p>
-  <p>For more information, visit 
+
+<h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
+<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings (GLS).</p>
+<p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Each course number links to the course description. </p>
+<p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
+<p>For a bachelor's student, we recommend you to take major-related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
+<p>For a master's student, we recommend you to take major-related courses for 9 credits.</p>
+<p>For more information, visit 
     <a href="https://www.uio.no/studier/utveksling/avtaler/asia/sor-korea/sungkyunkwan/mn.html" target="_blank">
       UiO's SKKU exchange page.
     </a>
-  </p>
+</p>
 
-  <div class="filters">
+<div class="filters">
     <label>Year:
-      <select id="yearFilter">
+    <select id="yearFilter">
         <option value="">All</option>
         <option value="2025">2025</option>
-      </select>
+    </select>
     </label>
     <label>Semester:
-      <select id="semesterFilter">
+    <select id="semesterFilter">
         <option value="">All</option>
-        <option value="Spring">Spring</option>
         <option value="Autumn">Autumn</option>
-      </select>
+        <option value="Spring">Spring</option>
+    </select>
     </label>
     <label>Campus:
-      <select id="campusFilter">
+    <select id="campusFilter">
         <option value="">All</option>
-        <option value="Suwon">Suwon</option>
-        <option value="Seoul">Seoul</option>
-      </select>
+        <option value="Suwon">Suwon (Natural Sciences Campus)</option>
+        <option value="Seoul">Seoul (Humanities and Social Sciences Campus)</option>
+        <option value="Online">Online</option>
+    </select>
     </label>
     <label>Track:
-      <select id="trackFilter">
+    <select id="trackFilter">
         <option value="">All</option>
+        <option value="IFI">All IFI majors</option>
+        <option value="ML">Machine Learning (ML)</option>
+        <option value="PROSA">Programming and systems architecture (PROSA)</option>
+        <option value="LT">Language technology (LT)</option>
+        <option value="DBI">Design, Use, and Interaction (DBI)</option>
+        <option value="Math">Mathematics</option>
         <option value="Others">Others</option>
-      </select>
+    </select>
     </label>
     <label>Level:
-      <select id="levelFilter">
+    <select id="levelFilter">
         <option value="">All</option>
+        <option value="BS+MS">Bachelor and Master</option>
         <option value="BS">Bachelor only</option>
-      </select>
+        <option value="MS">Master only</option>
+    </select>
     </label>
     <label>Credits:
-      <select id="creditsFilter">
+    <select id="creditsFilter">
         <option value="">All</option>
         <option value="1">1</option>
         <option value="2">2</option>
-      </select>
+        <option value="3">3</option>
+        <option value="6">6</option>
+    </select>
     </label>
-  </div>
+</div>
 
-  <table id="courseTable">
+<table id="courseTable">
     <thead>
-      <tr>
+    <tr>
         <th>Course Number</th>
         <th>Title</th>
         <th>Year</th>
@@ -92,11 +104,34 @@
         <th>Track</th>
         <th>Level</th>
         <th>Credits</th>
-      </tr>
+    </tr>
     </thead>
-    <tbody id="courseTableBody">
-      <tr>
-        <td><button class="course-toggle" data-description="This seminar offers immersive activities exploring Korean and global cultures. The course encourages critical reflection on cultural exchange and entrepreneurship.">GELT002</button></td>
+
+    <tbody>
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            GELT002
+        </button>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT002
+            </button>
+        </td>
         <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
         <td>2025</td>
         <td>Spring</td>
@@ -104,12 +139,71 @@
         <td>Others</td>
         <td>BS</td>
         <td>1</td>
-      </tr>
-      <tr class="course-description-row" style="display: none;">
+    </tr>
+    <tr class="course-description-row" style="display: none;">
         <td colspan="8" class="course-description-cell"></td>
-      </tr>
-      <tr>
-        <td><button class="course-toggle" data-description="Introductory Korean culture and language, focused on basic daily expressions.">GELT093</button></td>
+    </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT002
+            </button>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            GELT002
+        </button>
+        </td>
+        <td>Seminar for Experience of Global Culture and Entrepreneurship</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>1</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT093
+            </button>
+        </td>
+        <td>Korean Language and Culture</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <button class="course-toggle" data-description="">
+            GELT093
+            </button>
+        </td>
         <td>Korean Language and Culture</td>
         <td>2025</td>
         <td>Spring</td>
@@ -117,29 +211,1267 @@
         <td>Others</td>
         <td>BS</td>
         <td>2</td>
-      </tr>
-      <tr class="course-description-row" style="display: none;">
+    </tr>
+    <tr class="course-description-row" style="display: none;">
         <td colspan="8" class="course-description-cell"></td>
-      </tr>
-    </tbody>
-  </table>
+    </tr>
 
-  <script>
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            SUP5006
+        </button>
+        </td>
+        <td>Mathematics for Machine Learning</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>Math</td>
+        <td>MS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            SUP5013
+        </button>
+        </td>
+        <td>Algorithm Design</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>ML</td>
+        <td>MS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3037
+        </button>
+        </td>
+        <td>Marketing Intelligence</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Online</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BIZ3025
+        </button>
+        </td>
+        <td>Consumer Neuroscience and Implications for AI</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3045
+        </button>
+        </td>
+        <td>Business Analytics and Applications</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3045
+        </button>
+        </td>
+        <td>Business Analytics and Applications</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3049
+        </button>
+        </td>
+        <td>Platform Business in Digital Economy</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3049
+        </button>
+        </td>
+        <td>Platform Business in Digital Economy</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            BUS3053
+        </button>
+        </td>
+        <td>Digital Marketing Strategy</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            COM2021
+        </button>
+        </td>
+        <td>Digital Video Processing</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            COM3004
+        </button>
+        </td>
+        <td>Computer Architecture</td>
+        <td>2025</td>
+        <td>Spirng</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            COM3022
+        </button>
+        </td>
+        <td>Artificial Intelligence</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            COM3039
+        </button>
+        </td>
+        <td>Computer Graphics</td>
+        <td>2025</td>
+        <td>Spirng</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+   
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CSE3036
+        </button>
+        </td>
+        <td>Seminar in Computer Engineering</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>1</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CSE3036
+        </button>
+        </td>
+        <td>Seminar in Computer Engineering</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>1</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            COS2044
+        </button>
+        </td>
+        <td>History of Korean Philosophy</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+ 
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CON2036
+        </button>
+        </td>
+        <td>Introduction to FinTech</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>Others</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+   
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            CNT2005
+        </button>
+        </td>
+        <td>Content Planning & Development</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>DBI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CNT2019
+        </button>
+        </td>
+        <td>Global Cultural Exchange</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>DBI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CNT2020
+        </button>
+        </td>
+        <td>Cultural Industry and Data Analysis</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>DBI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CNT2024
+        </button>
+        </td>
+        <td>Korean Cinema in the World</td>
+        <td>2025</td>
+        <td>Spirng</td>
+        <td>Seoul</td>
+        <td>DBI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            CNT3065
+        </button>
+        </td>
+        <td>Understanding K-content as a Business Enabler</td>
+        <td>2025</td>
+        <td>Spirng</td>
+        <td>Seoul</td>
+        <td>DBI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DASF003
+        </button>
+        </td>
+        <td>Computer Programming for Engineers</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DASF003
+        </button>
+        </td>
+        <td>Computer Programming for Engineers</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DASF004
+        </button>
+        </td>
+        <td>Basis and Practice in Programming</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DASF004
+        </button>
+        </td>
+        <td>Basis and Practice in Programming</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DSC2005
+        </button>
+        </td>
+        <td>Data Science and R</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DSC2019
+        </button>
+        </td>
+        <td>Numerical Methods for Data Analysis</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DSC2020
+        </button>
+        </td>
+        <td>Introduction to Statistics and Probability</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DSC3021
+        </button>
+        </td>
+        <td>Introduction to Artificial Intelligence</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="">
+            DSC3032
+        </button>
+        </td>
+        <td>Deep Learning 1: Foundations and Image Processing</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2001
+        </button>
+        </td>
+        <td>System Program</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2001
+        </button>
+        </td>
+        <td>System Program</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2003
+        </button>
+        </td>
+        <td>Automata</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2015
+        </button>
+        </td>
+        <td>Data Structures</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2015
+        </button>
+        </td>
+        <td>Data Structures</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2021
+        </button>
+        </td>
+        <td>Open Source Software Practice</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2021
+        </button>
+        </td>
+        <td>Open Source Software Practice</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2023
+        </button>
+        </td>
+        <td>JAVA Programming Lab</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2023
+        </button>
+        </td>
+        <td>JAVA Programming Lab</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Seoul</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE2024
+        </button>
+        </td>
+        <td>System Programming Lab</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3002
+        </button>
+        </td>
+        <td>Introduction to Software Engineering</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3002
+        </button>
+        </td>
+        <td>Introduction to Software Engineering</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3004
+        </button>
+        </td>
+        <td>Operating Systems</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3005
+        </button>
+        </td>
+        <td>Introduction to Computer Architectures</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3005
+        </button>
+        </td>
+        <td>Introduction to Computer Architectures</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3006
+        </button>
+        </td>
+        <td>Programming Languages</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3006
+        </button>
+        </td>
+        <td>Programming Languages</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3008
+        </button>
+        </td>
+        <td>Introduction to Computer Graphics</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3011
+        </button>
+        </td>
+        <td>Introduction to Artificial Intelligence</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3011
+        </button>
+        </td>
+        <td>Introduction to Artificial Intelligence</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3022
+        </button>
+        </td>
+        <td>Computer Networks</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3022
+        </button>
+        </td>
+        <td>Computer Networks</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3023
+        </button>
+        </td>
+        <td>Special Topics in Software 1</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3025
+        </button>
+        </td>
+        <td>Computer Security</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3025
+        </button>
+        </td>
+        <td>Computer Security</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3026
+        </button>
+        </td>
+        <td>Probability and Random Process</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3026
+        </button>
+        </td>
+        <td>Probability and Random Process</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3028
+        </button>
+        </td>
+        <td>Capstone Design Project</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3028
+        </button>
+        </td>
+        <td>Capstone Design Project</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3047
+        </button>
+        </td>
+        <td>Mobile App Programming Lab</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3047
+        </button>
+        </td>
+        <td>Mobile App Programming Lab</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>2</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3050
+        </button>
+        </td>
+        <td>Fundamentals of Machine Learning</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3050
+        </button>
+        </td>
+        <td>Fundamentals of Machine Learning</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3052
+        </button>
+        </td>
+        <td>Introduction to Deep Neural Networks</td>
+        <td>2025</td>
+        <td>Spring</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    <tr>
+        <td>
+        <button class="course-toggle" data-description="Content includes VR, AR, and more.">
+            SWE3052
+        </button>
+        </td>
+        <td>Introduction to Deep Neural Networks</td>
+        <td>2025</td>
+        <td>Autumn</td>
+        <td>Suwon</td>
+        <td>IFI</td>
+        <td>BS</td>
+        <td>3</td>
+    </tr>
+    <tr class="course-description-row" style="display: none;">
+        <td colspan="8" class="course-description-cell"></td>
+    </tr>   
+    
+    
+    </tbody>
+ </table>
+
+<script>
     const filters = {
-      year: document.getElementById('yearFilter'),
-      semester: document.getElementById('semesterFilter'),
-      campus: document.getElementById('campusFilter'),
-      track: document.getElementById('trackFilter'),
-      level: document.getElementById('levelFilter'),
-      credits: document.getElementById('creditsFilter')
+    year: document.getElementById('yearFilter'),
+    semester: document.getElementById('semesterFilter'),
+    campus: document.getElementById('campusFilter'),
+    track: document.getElementById('trackFilter'),
+    level: document.getElementById('levelFilter'),
+    credits: document.getElementById('creditsFilter')
     };
 
     function filterTable() {
-      const allRows = document.querySelectorAll("#courseTable tbody tr");
-      for (let i = 0; i < allRows.length; i += 2) {
-        const row = allRows[i];
-        const descRow = allRows[i + 1];
+    const allRows = document.querySelectorAll("#courseTable tbody tr");
+    allRows.forEach(row => {
+        // Always hide description rows during filtering
+        if (row.classList.contains("course-description-row")) {
+        row.style.display = "none";
+        row.querySelector(".course-description-cell").innerHTML = "";
+        return;
+        }
 
+        // Apply filters to visible course rows only
         const year = row.children[2].textContent.trim();
         const semester = row.children[3].textContent.trim();
         const campus = row.children[4].textContent.trim();
@@ -148,57 +1480,78 @@
         const credits = row.children[7].textContent.trim();
 
         const show = (!filters.year.value || filters.year.value === year) &&
-                     (!filters.semester.value || filters.semester.value === semester) &&
-                     (!filters.campus.value || filters.campus.value === campus) &&
-                     (!filters.track.value || filters.track.value === track) &&
-                     (!filters.level.value || filters.level.value === level) &&
-                     (!filters.credits.value || filters.credits.value === credits);
+                    (!filters.semester.value || filters.semester.value === semester) &&
+                    (!filters.campus.value || filters.campus.value === campus) &&
+                    (!filters.track.value || filters.track.value === track) &&
+                    (!filters.level.value || filters.level.value === level) &&
+                    (!filters.credits.value || filters.credits.value === credits);
 
-        row.style.display = descRow.style.display = show ? "" : "none";
-      }
+        row.style.display = show ? "" : "none";
+    });
 
-      sortVisibleCourses();
+    // Sort visible course rows (not descriptions)
+    sortTableByCourseNumber();
     }
 
-    function sortVisibleCourses() {
-      const tbody = document.getElementById("courseTableBody");
-      const rows = Array.from(tbody.querySelectorAll("tr"));
-      const pairs = [];
-      for (let i = 0; i < rows.length; i += 2) {
-        pairs.push([rows[i], rows[i + 1]]);
-      }
+    function sortTableByCourseNumber() {
+        const table = document.getElementById("courseTable");
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        
+        // Pair course rows with their following description rows
+        const rowPairs = [];
+        for (let i = 0; i < rows.length; i += 2) {
+            if (!rows[i + 1]) break; // avoid out-of-bounds
+            rowPairs.push([rows[i], rows[i + 1]]);
+        }
 
-      const visiblePairs = pairs.filter(([course]) => course.style.display !== "none");
-      visiblePairs.sort((a, b) => {
-        const aText = a[0].cells[0].textContent.trim();
-        const bText = b[0].cells[0].textContent.trim();
-        return aText.localeCompare(bText);
-      });
+        // Filter and sort only those that are visible
+        const visiblePairs = rowPairs.filter(pair => pair[0].style.display !== "none");
+        visiblePairs.sort((a, b) => {
+            const courseA = a[0].cells[0].textContent.trim();
+            const courseB = b[0].cells[0].textContent.trim();
+            return courseA.localeCompare(courseB);
+        });
 
-      visiblePairs.forEach(([row, desc]) => {
-        tbody.appendChild(row);
-        tbody.appendChild(desc);
-      });
+        // Re-append sorted visible pairs
+        visiblePairs.forEach(pair => {
+            tbody.appendChild(pair[0]);
+            tbody.appendChild(pair[1]);
+        });
     }
 
+
+    // Attach change listener to all filters
+    Object.values(filters).forEach(select => {
+    select.addEventListener("change", filterTable);
+    });
+
+    // Initial sort on page load
+    window.addEventListener("DOMContentLoaded", () => {
+    filterTable(); // ensures sort + filter work immediately
+    });
+</script>
+
+<script>
     document.querySelectorAll('.course-toggle').forEach(button => {
-      button.addEventListener('click', () => {
+        button.addEventListener('click', () => {
         const row = button.closest('tr');
         const nextRow = row.nextElementSibling;
-        const cell = nextRow.querySelector('.course-description-cell');
-        const visible = nextRow.style.display === '';
-        nextRow.style.display = visible ? 'none' : '';
-        cell.innerHTML = visible ? '' : `<strong>Description:</strong> ${button.dataset.description}`;
-      });
-    });
+        const descCell = nextRow.querySelector('.course-description-cell');
+        const isVisible = nextRow.style.display === '';
 
-    Object.values(filters).forEach(select => {
-      select.addEventListener("change", filterTable);
+        // Toggle visibility
+        if (isVisible) {
+            nextRow.style.display = 'none';
+            descCell.innerHTML = '';
+        } else {
+            nextRow.style.display = '';
+            descCell.innerHTML = `<strong>Course Description:</strong> ${button.dataset.description}`;
+        }
+        });
     });
+</script>
 
-    window.addEventListener("DOMContentLoaded", () => {
-      filterTable();
-    });
-  </script>
+
 </body>
 </html>
