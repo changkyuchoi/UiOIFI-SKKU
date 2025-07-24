@@ -111,7 +111,7 @@
 
 <script>
 async function loadCoursesFromCSV() {
-    const response = await fetch('courses2025.csv');
+    const response = await fetch('courses2025_cleaned.csv');
     const data = await response.text();
     const rows = data.trim().split('\n');
     const headers = rows.shift().split(',');
