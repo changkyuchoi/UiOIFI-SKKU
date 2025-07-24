@@ -1,1 +1,0 @@
-📘 [View the course browser site](https://changkyuchoi.github.io/UiOIFI-SKKU/)
