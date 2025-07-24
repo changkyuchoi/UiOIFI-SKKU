@@ -115,6 +115,105 @@
 
  <script>
     window.addEventListener("DOMContentLoaded", () => {
+      const filters = {
+        year: document.getElementById('yearFilter'),
+        semester: document.getElementById('semesterFilter'),
+        campus: document.getElementById('campusFilter'),
+        track: document.getElementById('trackFilter'),
+        level: document.getElementById('levelFilter'),
+        credits: document.getElementById('creditsFilter')
+      };
+    
+      // Filtering logic
+      function filterTable() {
+        const allRows = document.querySelectorAll("#courseTable tbody tr");
+        allRows.forEach(row => {
+          if (row.classList.contains("course-description-row")) {
+            row.style.display = "none";
+            row.querySelector(".course-description-cell").innerHTML = "";
+            return;
+          }
+    
+          const year = row.children[2].textContent.trim();
+          const semester = row.children[3].textContent.trim();
+          const campus = row.children[4].textContent.trim();
+          const track = row.children[5].textContent.trim();
+          const level = row.children[6].textContent.trim();
+          const credits = row.children[7].textContent.trim();
+    
+          const show = (!filters.year.value || filters.year.value === year) &&
+                       (!filters.semester.value || filters.semester.value === semester) &&
+                       (!filters.campus.value || filters.campus.value === campus) &&
+                       (!filters.track.value || filters.track.value === track) &&
+                       (!filters.level.value || filters.level.value === level) &&
+                       (!filters.credits.value || filters.credits.value === credits);
+    
+          row.style.display = show ? "" : "none";
+        });
+    
+        sortTableByCourseNumber();
+      }
+    
+      // Sorting logic
+      function sortTableByCourseNumber() {
+        const tbody = document.querySelector("#courseTable tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+    
+        const rowPairs = [];
+        for (let i = 0; i < rows.length; i += 2) {
+          if (!rows[i + 1]) break;
+          rowPairs.push([rows[i], rows[i + 1]]);
+        }
+    
+        const visiblePairs = rowPairs.filter(pair => pair[0].style.display !== "none");
+        visiblePairs.sort((a, b) => {
+          const courseA = a[0].cells[0].textContent.trim();
+          const courseB = b[0].cells[0].textContent.trim();
+          return courseA.localeCompare(courseB);
+        });
+    
+        visiblePairs.forEach(pair => {
+          tbody.appendChild(pair[0]);
+          tbody.appendChild(pair[1]);
+        });
+      }
+    
+      // Load external course rows and initialize
+      fetch("courses2025.html")
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById("courseTableBody").innerHTML = html;
+    
+          // Rebind toggle buttons
+          document.querySelectorAll('.course-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+              const row = button.closest('tr');
+              const nextRow = row.nextElementSibling;
+              const descCell = nextRow.querySelector('.course-description-cell');
+              const isVisible = nextRow.style.display === '';
+              if (isVisible) {
+                nextRow.style.display = 'none';
+                descCell.innerHTML = '';
+              } else {
+                nextRow.style.display = '';
+                descCell.innerHTML = `<strong>Course Description:</strong> ${button.dataset.description}`;
+              }
+            });
+          });
+    
+          // Bind filter listeners
+          Object.values(filters).forEach(select => {
+            select.addEventListener("change", filterTable);
+          });
+    
+          // Initial filter + sort
+          filterTable();
+        });
+    });
+    </script>
+    
+ <!-- <script>
+    window.addEventListener("DOMContentLoaded", () => {
       fetch("courses2025.html")
         .then(response => response.text())
         .then(html => {
@@ -244,7 +343,7 @@
         }
         });
     });
-</script>
+</script> -->
 
 
 </body>
