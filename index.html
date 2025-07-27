@@ -24,13 +24,24 @@
             padding: 10px;
             font-size: 0.95em;
         }
-    </style>
+        .seoul-row {
+    background-color: #f0f8ff; /* Light blue for Seoul */
+        }
+        .suwon-row {
+    background-color: #faf8e9; /* Light yellow for Suwon */
+        }
+</style>
 </head>
 <body>
 
 <h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
-<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings (GLS).</p>
-<p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Each course number links to the course description. </p>
+<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings via
+    <a href="https://eportal.skku.edu/" target="_blank">
+    SKKU e-portal page.
+    </a>
+</p>
+<p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Clicking each course number will display the corresponding course description.
+</p>
 <p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
 <!-- <p>For a bachelor's student, we recommend you to take major-related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
 <p>For a master's student, we recommend you to take major-related courses for 9 credits.</p> -->
@@ -74,14 +85,29 @@
         <option value="Others">Others</option>
     </select>
     </label>
+    <label>Major:
+    <select id="departmentFilter">
+        <option value="">All</option>
+    </select>
+    </label>
     <label>Level:
     <select id="levelFilter">
         <option value="">All</option>
-        <option value="BS+MS">Bachelor and Master</option>
-        <option value="BS">Bachelor only</option>
-        <option value="MS">Master only</option>
+        <option value="BS+MS">BS+MS</option>
+        <option value="BS">BS</option>
+        <option value="MS">MS</option>
     </select>
     </label>
+    <label>Level Category:
+        <select id="levelCategoryFilter">
+            <option value="">All</option>
+            <option value="Common">Common</option>
+            <option value="2xxx">2xxx</option>
+            <option value="3xxx">3xxx</option>
+            <option value="4xxx">4xxx</option>
+            <option value="5xxx">5xxx</option>
+        </select>
+        </label>
     <label>Credits:
     <select id="creditsFilter">
         <option value="">All</option>
@@ -110,6 +136,49 @@
 </table>
 
 <script>
+
+const departmentMapping = {
+    BIZ: "BIZ: Business Administration",
+    BUS: "BUS: Business Administration",
+    CNT: "CNT: Culture and Technology",
+    COM: "COM: Artificial Intelligence and Immersive Media Engineering",
+    CON: "CON: Consumer Science",
+    COS: "COS: Confucian Studies and Eastern Philosophy",
+    CSE: "CSE: Data Science and Artificial Intelligence",
+    DAI: "DAI: Artificial Intelligence and Immersive Media Engineering",
+    DASF: "DASF: Data Science and Artificial Intelligence",
+    DBA: "DBA: Business Administration",
+    DES: "DES: Design",
+    DIM: "DIM: Artificial Intelligence and Immersive Media Engineering",
+    DSC: "DSC: Artificial Intelligence and Immersive Media Engineering",
+    ECE: "ECE: Electrical and Computer Engineering",
+    ECO: "ECO: Economics",
+    EEE: "EEE: Electronic and Electrical Engineering",
+    EME: "EME: Robotics and Mechanical Engineering",
+    ERC: "ERC: Mathematics",
+    ESM: "ESM: Systems Management Engineering",
+    FTM: "FTM: Culture and Technology",
+    GEDB: "GEDB: Electives",
+    GEDH: "GEDH: Electives",
+    GEDN: "GEDN: Electives",
+    GEDS: "GEDS: Electives",
+    GELT: "GELT: Electives",
+    HAI: "HAI: Artificial Intelligence and Interaction Science",
+    ICE: "ICE: Information and Communication Engineering",
+    IEC: "IEC: Exchange/Visiting",
+    LIS: "LIS: Library and Information Science",
+    MAE: "MAE: Mathematics Education",
+    MCJ: "MCJ: Culture and Technology",
+    MTH: "MTH: Mathematics",
+    PHY: "PHY: Physics",
+    PSY: "PSY: Psychology",
+    ROB: "ROB: Robotics and Mechanical Engineering",
+    STA: "STA: Statistics",
+    SUP: "SUP: Data Science and Artificial Intelligence",
+    SWE: "SWE: Intelligent Software Engineering",
+    WIS: "WIS: Artificial Intelligence and Interaction Science"
+};
+
 async function loadCoursesFromCSV() {
     const response = await fetch('courses2025_cleaned.csv');
     const data = await response.text();
@@ -119,11 +188,37 @@ async function loadCoursesFromCSV() {
     const tbody = document.querySelector("#courseTable tbody");
     tbody.innerHTML = '';
 
+    const departments = new Set();
+
+    const levels = new Set();
+
     for (const row of rows) {
         const cols = parseCSVLine(row);
         const [course, title, year, sem, campus, track, level, credits, desc] = cols;
 
+        // Extract department and level from the course code
+        const department = course.match(/[A-Za-z]+/)[0]; // Letter part
+        const departmentFull = departmentMapping[department] || department; // Map to full name or fallback to short name
+        const courseLevel = parseInt(course.match(/\d+/)[0], 10); // Number part
+
+        // Add department full name to the set for filter options
+        departments.add(departmentFull);
+        if (courseLevel < 1000) {
+            levels.add('Common');
+        } else if (courseLevel >= 2000 && courseLevel < 3000) {
+            levels.add('2xxx');
+        } else if (courseLevel >= 3000 && courseLevel < 4000) {
+            levels.add('3xxx');
+        } else if (courseLevel >= 4000 && courseLevel < 5000) {
+            levels.add('4xxx');
+        } else if (courseLevel >= 5000 && courseLevel < 6000) {
+            levels.add('5xxx');
+        }
+
         const mainRow = document.createElement('tr');
+        const campusClass = campus === "Seoul" ? "seoul-row" : campus === "Suwon" ? "suwon-row" : "";
+        mainRow.className = campusClass; // Apply the class based on campus
+
         mainRow.innerHTML = `
             <td><button class="course-toggle" data-description="${desc}">${course}</button></td>
             <td>${title}</td>
@@ -144,10 +239,30 @@ async function loadCoursesFromCSV() {
         tbody.appendChild(descRow);
     }
 
+    // Populate department and level filters
+    populateFilterOptions('departmentFilter', Object.values(departmentMapping).sort());
+    populateFilterOptions('levelCategoryFilter', ['Common', '2xxx', '3xxx', '4xxx', '5xxx']);
+
     attachToggleLogic();
     filterTable();
 }
 
+
+function populateFilterOptions(filterId, options) {
+    const filter = document.getElementById(filterId);
+    filter.innerHTML = '<option value="">All</option>';
+    options.forEach(option => {
+        const opt = document.createElement('option');
+        if (filterId === 'departmentFilter') {
+            opt.value = option.split(": ")[1]; // Use full name as the value
+            opt.textContent = option; // Display shortName: fullName in the dropdown
+        } else {
+            opt.value = option;
+            opt.textContent = option;
+        }
+        filter.appendChild(opt);
+    });
+}
 function parseCSVLine(line) {
     const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
     const result = [];
@@ -180,8 +295,10 @@ const filters = {
     semester: document.getElementById('semesterFilter'),
     campus: document.getElementById('campusFilter'),
     track: document.getElementById('trackFilter'),
+    department: document.getElementById('departmentFilter'),
+    credits: document.getElementById('creditsFilter'),
     level: document.getElementById('levelFilter'),
-    credits: document.getElementById('creditsFilter')
+    levelCategory: document.getElementById('levelCategoryFilter')
 };
 
 function filterTable() {
@@ -192,6 +309,17 @@ function filterTable() {
             row.querySelector(".course-description-cell").innerHTML = "";
             return;
         }
+
+        const course = row.children[0].textContent.trim();
+        const departmentShort = course.match(/[A-Za-z]+/)[0]; // Extract short code
+        const departmentFull = departmentMapping[departmentShort] || departmentShort; // Map to full name
+
+        const courseLevel = parseInt(course.match(/\d+/)[0], 10);
+        const levelCategory = courseLevel < 1000 ? 'Common' :
+                              courseLevel >= 2000 && courseLevel < 3000 ? '2xxx' :
+                              courseLevel >= 3000 && courseLevel < 4000 ? '3xxx' :
+                              courseLevel >= 4000 && courseLevel < 5000 ? '4xxx' :
+                              '5xxx';
 
         const year = row.children[2].textContent.trim();
         const semester = row.children[3].textContent.trim();
@@ -205,7 +333,9 @@ function filterTable() {
                      (!filters.campus.value || filters.campus.value === campus) &&
                      (!filters.track.value || filters.track.value === track) &&
                      (!filters.level.value || filters.level.value === level) &&
-                     (!filters.credits.value || filters.credits.value === credits);
+                     (!filters.credits.value || filters.credits.value === credits) &&
+                     (!filters.department.value || filters.department.value === departmentFull.split(": ")[1]) && // Compare full name
+                     (!filters.levelCategory.value || filters.levelCategory.value === levelCategory);
 
         row.style.display = show ? "" : "none";
     });
@@ -227,7 +357,21 @@ function sortTableByCourseNumber() {
     visiblePairs.sort((a, b) => {
         const courseA = a[0].cells[0].textContent.trim();
         const courseB = b[0].cells[0].textContent.trim();
-        return courseA.localeCompare(courseB);
+
+        const yearA = a[0].cells[2].textContent.trim();
+        const yearB = b[0].cells[2].textContent.trim();
+
+        const semesterA = a[0].cells[3].textContent.trim();
+        const semesterB = b[0].cells[3].textContent.trim();
+
+        const campusA = a[0].cells[4].textContent.trim();
+        const campusB = b[0].cells[4].textContent.trim();
+
+        // Sort by course number, then year, then semester, then campus
+        return courseA.localeCompare(courseB) ||
+               yearA.localeCompare(yearB) ||
+               semesterA.localeCompare(semesterB) ||
+               campusA.localeCompare(campusB);
     });
 
     visiblePairs.forEach(pair => {
