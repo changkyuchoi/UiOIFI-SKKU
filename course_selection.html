@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recommended SKKU Courses for UiO IFI Exchange Students</title>
+    <title>Course Selection by IFI Track - SKKU Courses for UiO IFI Exchange Students</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        table { border-collapse: collapse; width: 100%; font-size: 14px; }
+        th, td { padding: 6px 8px; border: 1px solid #ccc; text-align: left; }
         th { background-color: #f2f2f2; cursor: pointer; }
         .filters { 
             margin-bottom: 20px; 
@@ -42,10 +42,10 @@
             font-size: 0.95em;
         }
         .seoul-row {
-    background-color: #f0f8ff; /* Light blue for Seoul */
+            background-color: #f0f8ff; /* Light blue for Seoul */
         }
         .suwon-row {
-    background-color: #faf8e9; /* Light yellow for Suwon */
+            background-color: #faf8e9; /* Light yellow for Suwon */
         }
         .active-filters {
             background-color: #f8f9fa;
@@ -88,7 +88,20 @@
         .clear-filters-btn:hover {
             background-color: #c82333;
         }
-        .selected-courses {
+        .track-columns {
+            text-align: center;
+            width: 60px;
+        }
+        .track-checkbox {
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+        .track-header {
+            background-color: #e9ecef !important;
+            font-weight: bold;
+            text-align: center;
+        }
+        .export-section {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 6px;
@@ -96,12 +109,12 @@
             margin-bottom: 15px;
             font-size: 14px;
         }
-        .selected-courses h4 {
+        .export-section h4 {
             margin: 0 0 8px 0;
             font-size: 16px;
             color: #495057;
         }
-        .download-btn {
+        .export-btn {
             background-color: #28a745;
             color: white;
             border: none;
@@ -110,45 +123,38 @@
             font-size: 14px;
             cursor: pointer;
             font-weight: 500;
-            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 5px;
         }
-        .download-btn:hover {
+        .export-btn:hover {
             background-color: #218838;
         }
-        .download-btn:disabled {
-            background-color: #6c757d;
-            cursor: not-allowed;
+        .save-status {
+            color: #28a745;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
         }
-        .checkbox-column {
-            width: 40px;
-            text-align: center;
-        }
-        .course-checkbox {
-            cursor: pointer;
-        }
-</style>
+    </style>
 </head>
 <body>
 
-<h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
-<p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Clicking each course number will display the corresponding course description.
+<h1>Course Selection by IFI Track - SKKU Courses for UiO IFI Exchange Students</h1>
+<p>This page allows IFI track leaders to mark courses as relevant for their specific tracks. Selections are automatically saved online and shared with all track leaders in real-time.
 </p>
-<p>Full-time studies at SKKU are <strong>15 credits</strong> for students at bachelor's level and <strong>9 credits</strong> for students at master's level. For more information, visit the
-    <a href="https://www.uio.no/studier/utveksling/avtaler/asia/sor-korea/sungkyunkwan/mn.html" target="_blank">
-      UiO's official webpage on student exchange programs.
-    </a>
+<p>Use the checkboxes in each track column to mark courses as relevant. The "All" column can be used for courses relevant to all tracks. All changes are visible to other track leaders immediately.
 </p>
-<p>Color differentiates the campus locations. <strong>Seoul (Humanities and Social Sciences Campus, HSSC)</strong> courses are shown in light blue, while <strong>Suwon (Natural Sciences Campus, NSC)</strong> courses are in light yellow. There is 
-    <a href="https://www.skku.edu/eng/CampusLife/convenience/Shuttlebus.do" target="_blank">
-      a shuttle bus service between the two campuses.
-    </a>
+<p>Color differentiates the campus locations. <strong>Seoul (Humanities and Social Sciences Campus, HSSC)</strong> courses are shown in light blue, while <strong>Suwon (Natural Sciences Campus, NSC)</strong> courses are in light yellow.
 </p>
 
-<div class="selected-courses" id="selectedCourses">
-    <h4>Selected Courses:</h4>
-    <div id="selectedCoursesList">
-        <span class="no-filters">No courses selected</span>
-    </div>
+<div class="export-section">
+    <h4>Export Course Selections:</h4>
+    <button class="export-btn" onclick="exportTrackSelections('all')">Export All Tracks</button>
+    <button class="export-btn" onclick="exportTrackSelections('ML')">Export ML</button>
+    <button class="export-btn" onclick="exportTrackSelections('PROSA')">Export PROSA</button>
+    <button class="export-btn" onclick="exportTrackSelections('LT')">Export LT</button>
+    <button class="export-btn" onclick="exportTrackSelections('DBI')">Export DBI</button>
+    <span class="save-status" id="saveStatus"></span>
 </div>
 
 <div class="active-filters" id="activeFilters">
@@ -226,17 +232,11 @@
     </label>
 </div>
 
-<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings via
-    <a href="https://eportal.skku.edu/" target="_blank">
-    SKKU e-portal page.
-    </a>
-</p>
-
+<p><strong>Note:</strong> Your selections are automatically saved online and synchronized with all track leaders. Changes are visible to everyone immediately.</p>
 
 <table id="courseTable">
     <thead>
     <tr>
-        <th class="checkbox-column">Select</th>
         <th>Course Number</th>
         <th>Title</th>
         <th>Year</th>
@@ -245,6 +245,11 @@
         <th>Track</th>
         <th>Level</th>
         <th>Credits</th>
+        <th class="track-header track-columns">All</th>
+        <th class="track-header track-columns">ML</th>
+        <th class="track-header track-columns">PROSA</th>
+        <th class="track-header track-columns">LT</th>
+        <th class="track-header track-columns">DBI</th>
     </tr>
     </thead>
     <tbody></tbody>
@@ -294,9 +299,71 @@ const departmentMapping = {
     WIS: "WIS: Artificial Intelligence and Interaction Science"
 };
 
-let selectedCourses = new Set();
+// Track selections storage
+let trackSelections = {};
+const API_URL = 'track_selections_api.php';
+
+// Load saved selections from server
+async function loadTrackSelections() {
+    try {
+        const response = await fetch(API_URL);
+        if (response.ok) {
+            trackSelections = await response.json();
+        } else {
+            console.error('Failed to load selections from server');
+            trackSelections = {};
+        }
+    } catch (error) {
+        console.error('Error loading selections:', error);
+        trackSelections = {};
+    }
+}
+
+// Save selections to server
+async function saveTrackSelections() {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(trackSelections)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            showSaveStatus('success');
+        } else {
+            const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+            showSaveStatus('error', errorData.message);
+            console.error('Failed to save selections to server:', errorData.message);
+        }
+    } catch (error) {
+        showSaveStatus('error', error.message);
+        console.error('Error saving selections:', error);
+    }
+}
+
+// Show save status message
+function showSaveStatus(status = 'success', message = '') {
+    const statusElement = document.getElementById('saveStatus');
+    if (status === 'success') {
+        statusElement.textContent = 'Selections saved online!';
+        statusElement.style.color = '#28a745';
+    } else {
+        statusElement.textContent = `Save failed: ${message || 'please try again'}`;
+        statusElement.style.color = '#dc3545';
+    }
+    
+    setTimeout(() => {
+        statusElement.textContent = '';
+    }, 5000); // Show error messages a bit longer
+}
 
 async function loadCoursesFromCSV() {
+    // First load the track selections
+    await loadTrackSelections();
+    
     const response = await fetch('courses2025_cleaned.csv');
     const data = await response.text();
     const rows = data.trim().split('\n');
@@ -306,7 +373,6 @@ async function loadCoursesFromCSV() {
     tbody.innerHTML = '';
 
     const departments = new Set();
-
     const levels = new Set();
 
     for (const row of rows) {
@@ -336,8 +402,13 @@ async function loadCoursesFromCSV() {
         const campusClass = campus === "Seoul" ? "seoul-row" : campus === "Suwon" ? "suwon-row" : "";
         mainRow.className = campusClass; // Apply the class based on campus
 
+        // Create track checkboxes
+        const trackCheckboxes = ['All', 'ML', 'PROSA', 'LT', 'DBI'].map(trackName => {
+            const isChecked = trackSelections[course] && trackSelections[course][trackName] ? 'checked' : '';
+            return `<td class="track-columns"><input type="checkbox" class="track-checkbox" data-course="${course}" data-track="${trackName}" ${isChecked} onchange="toggleTrackSelection(this)"></td>`;
+        }).join('');
+
         mainRow.innerHTML = `
-            <td class="checkbox-column"><input type="checkbox" class="course-checkbox" data-course="${course}" data-title="${title}" data-year="${year}" data-semester="${sem}" data-campus="${campus}" data-track="${track}" data-level="${level}" data-credits="${credits}" onchange="toggleCourseSelection(this)"></td>
             <td><button class="course-toggle" data-description="${desc}">${course}</button></td>
             <td>${title}</td>
             <td>${year}</td>
@@ -346,12 +417,13 @@ async function loadCoursesFromCSV() {
             <td>${track}</td>
             <td>${level}</td>
             <td>${credits}</td>
+            ${trackCheckboxes}
         `;
 
         const descRow = document.createElement('tr');
         descRow.className = "course-description-row";
         descRow.style.display = "none";
-        descRow.innerHTML = `<td colspan="9" class="course-description-cell"></td>`;
+        descRow.innerHTML = `<td colspan="13" class="course-description-cell"></td>`;
 
         tbody.appendChild(mainRow);
         tbody.appendChild(descRow);
@@ -363,9 +435,124 @@ async function loadCoursesFromCSV() {
 
     attachToggleLogic();
     filterTable();
-    updateSelectedCoursesDisplay();
 }
 
+function toggleTrackSelection(checkbox) {
+    const course = checkbox.dataset.course;
+    const track = checkbox.dataset.track;
+    
+    if (!trackSelections[course]) {
+        trackSelections[course] = {};
+    }
+    
+    trackSelections[course][track] = checkbox.checked;
+    
+    // If unchecked, remove the entry to keep storage clean
+    if (!checkbox.checked) {
+        delete trackSelections[course][track];
+        if (Object.keys(trackSelections[course]).length === 0) {
+            delete trackSelections[course];
+        }
+    }
+    
+    saveTrackSelections();
+}
+
+function exportTrackSelections(trackName) {
+    const selectedCourses = [];
+    
+    // Get all courses for the specified track
+    Object.entries(trackSelections).forEach(([course, tracks]) => {
+        if (trackName === 'all') {
+            // For "all", include courses that have any track selected
+            const selectedTracks = Object.entries(tracks).filter(([_, selected]) => selected).map(([track, _]) => track);
+            if (selectedTracks.length > 0) {
+                // Find the course data in the table
+                const courseRow = Array.from(document.querySelectorAll('#courseTable tbody tr')).find(row => {
+                    return !row.classList.contains('course-description-row') && 
+                           row.cells[0].textContent.trim() === course;
+                });
+                
+                if (courseRow) {
+                    selectedCourses.push({
+                        course: course,
+                        title: courseRow.cells[1].textContent.trim(),
+                        year: courseRow.cells[2].textContent.trim(),
+                        semester: courseRow.cells[3].textContent.trim(),
+                        campus: courseRow.cells[4].textContent.trim(),
+                        track: courseRow.cells[5].textContent.trim(),
+                        level: courseRow.cells[6].textContent.trim(),
+                        credits: courseRow.cells[7].textContent.trim(),
+                        selectedTracks: selectedTracks.join(', ')
+                    });
+                }
+            }
+        } else if (tracks[trackName]) {
+            // For specific track, include only courses selected for that track
+            const courseRow = Array.from(document.querySelectorAll('#courseTable tbody tr')).find(row => {
+                return !row.classList.contains('course-description-row') && 
+                       row.cells[0].textContent.trim() === course;
+            });
+            
+            if (courseRow) {
+                selectedCourses.push({
+                    course: course,
+                    title: courseRow.cells[1].textContent.trim(),
+                    year: courseRow.cells[2].textContent.trim(),
+                    semester: courseRow.cells[3].textContent.trim(),
+                    campus: courseRow.cells[4].textContent.trim(),
+                    track: courseRow.cells[5].textContent.trim(),
+                    level: courseRow.cells[6].textContent.trim(),
+                    credits: courseRow.cells[7].textContent.trim()
+                });
+            }
+        }
+    });
+    
+    if (selectedCourses.length === 0) {
+        alert(`No courses selected for ${trackName === 'all' ? 'any track' : trackName}.`);
+        return;
+    }
+    
+    // Create CSV content
+    const headers = trackName === 'all' 
+        ? ['Course Number', 'Title', 'Year', 'Semester', 'Campus', 'Track', 'Level', 'Credits', 'Selected Tracks']
+        : ['Course Number', 'Title', 'Year', 'Semester', 'Campus', 'Track', 'Level', 'Credits'];
+    
+    const csvContent = [
+        headers.join(','),
+        ...selectedCourses.map(course => {
+            const row = [
+                course.course,
+                `"${course.title}"`,
+                course.year,
+                course.semester,
+                course.campus,
+                course.track,
+                course.level,
+                course.credits
+            ];
+            
+            if (trackName === 'all') {
+                row.push(`"${course.selectedTracks}"`);
+            }
+            
+            return row.join(',');
+        })
+    ].join('\n');
+    
+    // Download CSV
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    const filename = trackName === 'all' ? 'all_track_selections.csv' : `${trackName}_track_selections.csv`;
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 function populateFilterOptions(filterId, options) {
     const filter = document.getElementById(filterId);
@@ -382,6 +569,7 @@ function populateFilterOptions(filterId, options) {
         filter.appendChild(opt);
     });
 }
+
 function parseCSVLine(line) {
     const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
     const result = [];
@@ -463,75 +651,6 @@ function clearAllFilters() {
     filterTable();
 }
 
-function toggleCourseSelection(checkbox) {
-    const courseData = {
-        course: checkbox.dataset.course,
-        title: checkbox.dataset.title,
-        year: checkbox.dataset.year,
-        semester: checkbox.dataset.semester,
-        campus: checkbox.dataset.campus,
-        track: checkbox.dataset.track,
-        level: checkbox.dataset.level,
-        credits: checkbox.dataset.credits
-    };
-    
-    if (checkbox.checked) {
-        selectedCourses.add(JSON.stringify(courseData));
-    } else {
-        selectedCourses.delete(JSON.stringify(courseData));
-    }
-    
-    updateSelectedCoursesDisplay();
-}
-
-function updateSelectedCoursesDisplay() {
-    const selectedCoursesList = document.getElementById('selectedCoursesList');
-    
-    if (selectedCourses.size === 0) {
-        selectedCoursesList.innerHTML = '<span class="no-filters">No courses selected</span>';
-    } else {
-        const courseItems = Array.from(selectedCourses).map(courseJson => {
-            const course = JSON.parse(courseJson);
-            return `<span class="filter-tag">${course.course} - ${course.title}</span>`;
-        });
-        
-        selectedCoursesList.innerHTML = courseItems.join('') + 
-            `<button class="download-btn" onclick="downloadSelectedCourses()">Download CSV</button>`;
-    }
-}
-
-function downloadSelectedCourses() {
-    if (selectedCourses.size === 0) return;
-    
-    const headers = ['Course Number', 'Title', 'Year', 'Semester', 'Campus', 'Track', 'Level', 'Credits'];
-    const csvContent = [
-        headers.join(','),
-        ...Array.from(selectedCourses).map(courseJson => {
-            const course = JSON.parse(courseJson);
-            return [
-                course.course,
-                `"${course.title}"`,
-                course.year,
-                course.semester,
-                course.campus,
-                course.track,
-                course.level,
-                course.credits
-            ].join(',');
-        })
-    ].join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'selected_courses.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
 function filterTable() {
     const allRows = document.querySelectorAll("#courseTable tbody tr");
     allRows.forEach(row => {
@@ -541,7 +660,7 @@ function filterTable() {
             return;
         }
 
-        const course = row.children[1].textContent.trim(); // Updated index due to checkbox column
+        const course = row.children[0].textContent.trim();
         const departmentShort = course.match(/[A-Za-z]+/)[0]; // Extract short code
         const departmentFull = departmentMapping[departmentShort] || departmentShort; // Map to full name
 
@@ -552,12 +671,12 @@ function filterTable() {
                               courseLevel >= 4000 && courseLevel < 5000 ? 'BS3+MS (4k)' :
                               'MS (5k)';
 
-        const year = row.children[3].textContent.trim(); // Updated index
-        const semester = row.children[4].textContent.trim(); // Updated index
-        const campus = row.children[5].textContent.trim(); // Updated index
-        const track = row.children[6].textContent.trim(); // Updated index
-        const level = row.children[7].textContent.trim(); // Updated index
-        const credits = row.children[8].textContent.trim(); // Updated index
+        const year = row.children[2].textContent.trim();
+        const semester = row.children[3].textContent.trim();
+        const campus = row.children[4].textContent.trim();
+        const track = row.children[5].textContent.trim();
+        const level = row.children[6].textContent.trim();
+        const credits = row.children[7].textContent.trim();
 
         const show = (!filters.year.value || filters.year.value === year) &&
                      (!filters.semester.value || filters.semester.value === semester) &&
@@ -587,17 +706,17 @@ function sortTableByCourseNumber() {
 
     const visiblePairs = rowPairs.filter(pair => pair[0].style.display !== "none");
     visiblePairs.sort((a, b) => {
-        const courseA = a[0].cells[1].textContent.trim(); // Updated index due to checkbox column
-        const courseB = b[0].cells[1].textContent.trim(); // Updated index due to checkbox column
+        const courseA = a[0].cells[0].textContent.trim();
+        const courseB = b[0].cells[0].textContent.trim();
 
-        const yearA = a[0].cells[3].textContent.trim(); // Updated index
-        const yearB = b[0].cells[3].textContent.trim(); // Updated index
+        const yearA = a[0].cells[2].textContent.trim();
+        const yearB = b[0].cells[2].textContent.trim();
 
-        const semesterA = a[0].cells[4].textContent.trim(); // Updated index
-        const semesterB = b[0].cells[4].textContent.trim(); // Updated index
+        const semesterA = a[0].cells[3].textContent.trim();
+        const semesterB = b[0].cells[3].textContent.trim();
 
-        const campusA = a[0].cells[5].textContent.trim(); // Updated index
-        const campusB = b[0].cells[5].textContent.trim(); // Updated index
+        const campusA = a[0].cells[4].textContent.trim();
+        const campusB = b[0].cells[4].textContent.trim();
 
         // Sort by course number, then year, then semester, then campus
         return courseA.localeCompare(courseB) ||
@@ -616,7 +735,11 @@ Object.values(filters).forEach(select => {
     select.addEventListener("change", filterTable);
 });
 
-window.addEventListener("DOMContentLoaded", loadCoursesFromCSV);
+// Initialize the page
+window.addEventListener("DOMContentLoaded", () => {
+    loadCoursesFromCSV();
+});
+
 </script>
 
 </body>
