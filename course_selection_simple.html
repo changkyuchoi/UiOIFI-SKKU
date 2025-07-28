@@ -196,13 +196,17 @@
     <button class="file-btn" onclick="downloadSelections()">📥 Download My Selections</button>
     <button class="file-btn upload-btn" onclick="document.getElementById('fileInput').click()">📤 Upload Team Selections</button>
     <input type="file" id="fileInput" class="file-input" accept=".json" onchange="uploadSelections(this)">
-    <button class="file-btn" onclick="mergeWithTeam()">🔄 Merge with Team Data</button>
-    <button class="file-btn" onclick="toggleViewMode()" id="viewToggle" style="display: none;">👥 View My Selections</button>
+    
+    <!-- These buttons appear after uploading team data -->
+    <div id="teamCollaboration" style="display: none;">
+        <button class="file-btn" onclick="toggleViewMode()" id="viewToggle">👥 View Team Selections</button>
+        <button class="file-btn" onclick="mergeWithTeam()">� Merge with Team Data</button>
+    </div>
     
     <div class="file-info">
         <strong>📋 How to collaborate:</strong>
         <br>• Download your selections as a JSON file and share with team members via email/Slack/etc.
-        <br>• Upload team members' files to see their selections
+        <br>• Upload team members' files to see their selections and unlock collaboration features
         <br>• Use "Merge with Team Data" to combine multiple team members' selections
         <br>• Everyone can work independently and sync by sharing files
     </div>
@@ -408,11 +412,8 @@ function uploadSelections(input) {
             if (confirm('Team selections loaded! Do you want to view team selections on the table? (Your personal selections will be preserved)')) {
                 displayTeamSelections();
             } else {
-                // Just show the toggle button
-                if (Object.keys(teamSelections).length > 0) {
-                    document.getElementById('viewToggle').style.display = 'inline-block';
-                    document.getElementById('viewToggle').textContent = '👥 View Team Selections';
-                }
+                // Just show the collaboration section and set initial state
+                showTeamCollaboration();
             }
             
         } catch (error) {
@@ -425,12 +426,18 @@ function uploadSelections(input) {
     input.value = ''; // Clear the input
 }
 
+// Show team collaboration buttons after uploading team data
+function showTeamCollaboration() {
+    document.getElementById('teamCollaboration').style.display = 'block';
+    document.getElementById('viewToggle').textContent = '👥 View Team Selections';
+}
+
 // Display team selections on the table (without overwriting personal data)
 let isShowingTeamData = false;
 
 function displayTeamSelections() {
     isShowingTeamData = true;
-    document.getElementById('viewToggle').style.display = 'inline-block';
+    showTeamCollaboration();
     document.getElementById('viewToggle').textContent = '👤 View My Selections';
     
     // Temporarily show team selections on checkboxes
@@ -464,9 +471,6 @@ function toggleViewMode() {
         // Switch back to personal view
         isShowingTeamData = false;
         document.getElementById('viewToggle').textContent = '👥 View Team Selections';
-        if (Object.keys(teamSelections).length === 0) {
-            document.getElementById('viewToggle').style.display = 'none';
-        }
         
         // Re-enable checkboxes and show personal selections
         document.querySelectorAll('.track-checkbox').forEach(checkbox => {
@@ -525,7 +529,8 @@ function mergeWithTeam() {
     });
     
     isShowingTeamData = false;
-    document.getElementById('viewToggle').style.display = 'none';
+    // Keep collaboration section visible for future uploads
+    document.getElementById('viewToggle').textContent = '👥 View Team Selections';
     
     showSaveStatus('success', `Merged ${mergedCount} new selections from team data!`);
 }
