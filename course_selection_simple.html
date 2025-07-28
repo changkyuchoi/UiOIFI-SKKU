@@ -157,17 +157,82 @@
         .sync-btn:hover {
             background-color: #138496;
         }
+        .file-management {
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .file-management h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+        .file-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+        .file-btn:hover {
+            background-color: #5a6268;
+        }
+        .upload-btn {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .upload-btn:hover {
+            background-color: #e0a800;
+        }
+        .file-input {
+            display: none;
+        }
+        .file-info {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
 
 <h1>Course Selection by IFI Track - SKKU Courses for UiO IFI Exchange Students</h1>
-<p>This page allows IFI track leaders to mark courses as relevant for their specific tracks. Selections are stored in browser localStorage and can be synced with a shared online storage.
+<p>This page allows IFI track leaders to mark courses as relevant for their specific tracks. <strong>Work collaboratively by sharing JSON files</strong> - no technical setup required!
 </p>
+<p><strong>🚀 Quick Start:</strong> Make your selections, download your file, and share with team members. Upload their files to see combined results.
+</p>
+
+<div class="file-management">
+    <h4>� Manage Your Selections:</h4>
+    <p>Save your selections to share with others or load selections from your team members.</p>
+    
+    <button class="file-btn" onclick="downloadSelections()">📥 Download My Selections</button>
+    <button class="file-btn upload-btn" onclick="document.getElementById('fileInput').click()">📤 Upload Team Selections</button>
+    <input type="file" id="fileInput" class="file-input" accept=".json" onchange="uploadSelections(this)">
+    <button class="file-btn" onclick="mergeWithTeam()">🔄 Merge with Team Data</button>
+    <button class="file-btn" onclick="toggleViewMode()" id="viewToggle" style="display: none;">👥 View My Selections</button>
+    
+    <div class="file-info">
+        <strong>📋 How to collaborate:</strong>
+        <br>• Download your selections as a JSON file and share with team members via email/Slack/etc.
+        <br>• Upload team members' files to see their selections
+        <br>• Use "Merge with Team Data" to combine multiple team members' selections
+        <br>• Everyone can work independently and sync by sharing files
+    </div>
+</div>
 
 <div class="storage-info">
     <h4>🔄 Data Storage & Sync:</h4>
-    <p>Your selections are saved locally in your browser. Click "Sync with Online Storage" to load/save shared selections with other track leaders.</p>
+    <p>Your selections are saved locally in your browser. Use the file management tools above for team collaboration.</p>
     <button class="sync-btn" onclick="syncWithOnlineStorage()">Sync with Online Storage</button>
     <span class="save-status" id="syncStatus"></span>
 </div>
@@ -324,14 +389,183 @@ const departmentMapping = {
 
 // Track selections storage - uses localStorage for persistence
 let trackSelections = JSON.parse(localStorage.getItem('trackSelections') || '{}');
+let teamSelections = {}; // Store uploaded team data separately
 
 // URL of the shared online storage (you can update this to any JSON storage service)
 const ONLINE_STORAGE_URL = 'https://api.jsonbin.io/v3/b/YOUR_BIN_ID';
 
+// Download selections as JSON file
+function downloadSelections() {
+    const dataStr = JSON.stringify(trackSelections, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    
+    // Generate filename with current date and time
+    const now = new Date();
+    const timestamp = now.toISOString().slice(0, 19).replace(/:/g, '-');
+    const filename = `track_selections_${timestamp}.json`;
+    
+    link.download = filename;
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    showSaveStatus('success', `Selections downloaded as ${filename}`);
+}
+
+// Upload selections from JSON file
+function uploadSelections(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
+        alert('Please select a valid JSON file.');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const uploadedData = JSON.parse(e.target.result);
+            
+            // Store as team data (separate from personal selections)
+            teamSelections = uploadedData;
+            
+            showSaveStatus('success', `Team selections loaded from ${file.name}`);
+            
+            // Ask user if they want to view team selections
+            if (confirm('Team selections loaded! Do you want to view team selections on the table? (Your personal selections will be preserved)')) {
+                displayTeamSelections();
+            } else {
+                // Just show the toggle button
+                if (Object.keys(teamSelections).length > 0) {
+                    document.getElementById('viewToggle').style.display = 'inline-block';
+                    document.getElementById('viewToggle').textContent = '👥 View Team Selections';
+                }
+            }
+            
+        } catch (error) {
+            alert('Error reading file: Invalid JSON format');
+            console.error('Upload error:', error);
+        }
+    };
+    
+    reader.readAsText(file);
+    input.value = ''; // Clear the input
+}
+
+// Display team selections on the table (without overwriting personal data)
+let isShowingTeamData = false;
+
+function displayTeamSelections() {
+    isShowingTeamData = true;
+    document.getElementById('viewToggle').style.display = 'inline-block';
+    document.getElementById('viewToggle').textContent = '👤 View My Selections';
+    
+    // Temporarily show team selections on checkboxes
+    document.querySelectorAll('.track-checkbox').forEach(checkbox => {
+        const course = checkbox.dataset.course;
+        const track = checkbox.dataset.track;
+        
+        // Show team selection (but don't save to personal storage)
+        const isTeamSelected = teamSelections[course] && teamSelections[course][track];
+        checkbox.checked = isTeamSelected;
+        
+        // Disable checkboxes when viewing team data
+        checkbox.disabled = true;
+        
+        // Add visual indicator for team selections
+        if (isTeamSelected) {
+            checkbox.style.accentColor = '#ffc107'; // Yellow for team selections
+            checkbox.title = 'Team selection (view only)';
+        } else {
+            checkbox.style.accentColor = '#6c757d'; // Gray for unselected
+            checkbox.title = 'Not selected by team';
+        }
+    });
+    
+    showSaveStatus('info', 'Viewing team selections (read-only). Click "View My Selections" to return.');
+}
+
+// Toggle between personal and team view
+function toggleViewMode() {
+    if (isShowingTeamData) {
+        // Switch back to personal view
+        isShowingTeamData = false;
+        document.getElementById('viewToggle').textContent = '👥 View Team Selections';
+        if (Object.keys(teamSelections).length === 0) {
+            document.getElementById('viewToggle').style.display = 'none';
+        }
+        
+        // Re-enable checkboxes and show personal selections
+        document.querySelectorAll('.track-checkbox').forEach(checkbox => {
+            checkbox.disabled = false;
+            checkbox.style.accentColor = '';
+            checkbox.title = '';
+        });
+        
+        refreshTrackCheckboxes();
+        showSaveStatus('success', 'Viewing your personal selections. You can edit them now.');
+        
+    } else {
+        // Switch to team view
+        if (Object.keys(teamSelections).length === 0) {
+            alert('No team data loaded. Please upload a team selections file first.');
+            return;
+        }
+        displayTeamSelections();
+    }
+}
+
+// Merge team selections with personal selections
+function mergeWithTeam() {
+    if (Object.keys(teamSelections).length === 0) {
+        alert('No team data loaded. Please upload a team selections file first.');
+        return;
+    }
+    
+    let mergedCount = 0;
+    
+    // Merge team selections into personal selections
+    Object.entries(teamSelections).forEach(([course, tracks]) => {
+        if (!trackSelections[course]) {
+            trackSelections[course] = {};
+        }
+        
+        Object.entries(tracks).forEach(([track, selected]) => {
+            if (selected && !trackSelections[course][track]) {
+                trackSelections[course][track] = true;
+                mergedCount++;
+            }
+        });
+    });
+    
+    // Save merged data
+    saveToLocalStorage();
+    
+    // Refresh checkboxes to show merged data
+    refreshTrackCheckboxes();
+    
+    // Reset visual indicators
+    document.querySelectorAll('.track-checkbox').forEach(checkbox => {
+        checkbox.disabled = false;
+        checkbox.style.accentColor = '';
+        checkbox.title = '';
+    });
+    
+    isShowingTeamData = false;
+    document.getElementById('viewToggle').style.display = 'none';
+    
+    showSaveStatus('success', `Merged ${mergedCount} new selections from team data!`);
+}
+
 // Save to localStorage
 function saveToLocalStorage() {
     localStorage.setItem('trackSelections', JSON.stringify(trackSelections));
-    showSaveStatus('success', 'Selections saved locally!');
+    showSyncStatus('success', 'Selections saved locally!');
 }
 
 // Sync with online storage (uses a public JSON storage service)
@@ -401,6 +635,12 @@ function showSaveStatus(status = 'success', message = '') {
     if (status === 'success') {
         statusElement.textContent = message;
         statusElement.style.color = '#28a745';
+    } else if (status === 'info') {
+        statusElement.textContent = message;
+        statusElement.style.color = '#17a2b8';
+    } else if (status === 'warning') {
+        statusElement.textContent = message;
+        statusElement.style.color = '#ffc107';
     } else {
         statusElement.textContent = `Save failed: ${message}`;
         statusElement.style.color = '#dc3545';
@@ -408,7 +648,7 @@ function showSaveStatus(status = 'success', message = '') {
     
     setTimeout(() => {
         statusElement.textContent = '';
-    }, 3000);
+    }, 5000);
 }
 
 async function loadCoursesFromCSV() {
@@ -486,6 +726,13 @@ async function loadCoursesFromCSV() {
 }
 
 function toggleTrackSelection(checkbox) {
+    // Prevent editing while viewing team data
+    if (isShowingTeamData) {
+        checkbox.checked = teamSelections[checkbox.dataset.course] && teamSelections[checkbox.dataset.course][checkbox.dataset.track];
+        showSaveStatus('warning', 'You are viewing team data. Switch to "My Selections" to edit.');
+        return;
+    }
+    
     const course = checkbox.dataset.course;
     const track = checkbox.dataset.track;
     
