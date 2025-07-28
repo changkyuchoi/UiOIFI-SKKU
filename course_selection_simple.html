@@ -190,8 +190,14 @@
 </p>
 
 <div class="file-management">
-    <h4>� Manage Your Selections:</h4>
+    <h4>📁 Manage Your Selections:</h4>
     <p>Save your selections to share with others or load selections from your team members.</p>
+    
+    <label style="display: block; margin-bottom: 10px; font-size: 14px;">
+        <strong>Your Name (for filename):</strong>
+        <input type="text" id="writerName" placeholder="Enter your name (optional)" 
+               style="margin-left: 8px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+    </label>
     
     <button class="file-btn" onclick="downloadSelections()">📥 Download My Selections</button>
     <button class="file-btn upload-btn" onclick="document.getElementById('fileInput').click()">📤 Upload Team Selections</button>
@@ -377,7 +383,8 @@ function downloadSelections() {
     // Generate filename with current date and time
     const now = new Date();
     const timestamp = now.toISOString().slice(0, 19).replace(/:/g, '-');
-    const filename = `track_selections_${timestamp}.json`;
+    const writerName = document.getElementById('writerName').value.trim().replace(/[^a-zA-Z0-9]/g, '_') || 'selections';
+    const filename = `${writerName}_track_selections_${timestamp}.json`;
     
     link.download = filename;
     link.style.visibility = 'hidden';
