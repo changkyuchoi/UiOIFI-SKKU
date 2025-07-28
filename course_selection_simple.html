@@ -194,10 +194,14 @@
     <p>Save your selections to share with others or load selections from your team members.</p>
     
     <label style="display: block; margin-bottom: 10px; font-size: 14px;">
-        <strong>Your Name (for filename):</strong>
-        <input type="text" id="writerName" placeholder="Enter your name (optional)" 
-               style="margin-left: 8px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+        <strong>Your Name (required):</strong>
+        <input type="text" id="writerName" placeholder="Enter your name to start selecting" 
+               style="margin-left: 8px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;" 
+               oninput="enableCheckboxes()">
     </label>
+    <div id="nameWarning" style="color: #dc3545; font-size: 12px; margin-bottom: 10px; display: none;">
+        Please enter your name above to start selecting courses.
+    </div>
     
     <button class="file-btn" onclick="downloadSelections()">📥 Download My Selections</button>
     <button class="file-btn upload-btn" onclick="document.getElementById('fileInput').click()">📤 Upload Team Selections</button>
@@ -372,8 +376,49 @@ const departmentMapping = {
 let trackSelections = JSON.parse(localStorage.getItem('trackSelections') || '{}');
 let teamSelections = {}; // Store uploaded team data separately
 
+// Function to enable/disable checkboxes based on name input
+function enableCheckboxes() {
+    const writerName = document.getElementById('writerName').value.trim();
+    const checkboxes = document.querySelectorAll('.track-checkbox');
+    const nameWarning = document.getElementById('nameWarning');
+    
+    if (writerName.length > 0) {
+        // Enable checkboxes when name is provided
+        checkboxes.forEach(checkbox => {
+            if (!isShowingTeamData) { // Don't enable if viewing team data
+                checkbox.disabled = false;
+                checkbox.style.opacity = '1';
+            }
+        });
+        nameWarning.style.display = 'none';
+    } else {
+        // Disable checkboxes when no name is provided
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true;
+            checkbox.style.opacity = '0.5';
+        });
+        nameWarning.style.display = 'block';
+    }
+}
+
+// Initialize checkboxes as disabled on page load
+function initializeCheckboxes() {
+    const checkboxes = document.querySelectorAll('.track-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.disabled = true;
+        checkbox.style.opacity = '0.5';
+    });
+    document.getElementById('nameWarning').style.display = 'block';
+}
+
 // Download selections as JSON file
 function downloadSelections() {
+    const writerName = document.getElementById('writerName').value.trim();
+    if (!writerName) {
+        showSaveStatus('warning', 'Please enter your name before downloading selections.');
+        return;
+    }
+    
     const dataStr = JSON.stringify(trackSelections, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     
@@ -383,8 +428,8 @@ function downloadSelections() {
     // Generate filename with current date and time
     const now = new Date();
     const timestamp = now.toISOString().slice(0, 19).replace(/:/g, '-');
-    const writerName = document.getElementById('writerName').value.trim().replace(/[^a-zA-Z0-9]/g, '_') || 'selections';
-    const filename = `${writerName}_track_selections_${timestamp}.json`;
+    const sanitizedName = writerName.replace(/[^a-zA-Z0-9]/g, '_');
+    const filename = `${sanitizedName}_track_selections_${timestamp}.json`;
     
     link.download = filename;
     link.style.visibility = 'hidden';
@@ -481,12 +526,12 @@ function toggleViewMode() {
         
         // Re-enable checkboxes and show personal selections
         document.querySelectorAll('.track-checkbox').forEach(checkbox => {
-            checkbox.disabled = false;
             checkbox.style.accentColor = '';
             checkbox.title = '';
         });
         
         refreshTrackCheckboxes();
+        enableCheckboxes(); // Check name requirement and enable/disable accordingly
         showSaveStatus('success', 'Viewing your personal selections. You can edit them now.');
         
     } else {
@@ -530,7 +575,6 @@ function mergeWithTeam() {
     
     // Reset visual indicators
     document.querySelectorAll('.track-checkbox').forEach(checkbox => {
-        checkbox.disabled = false;
         checkbox.style.accentColor = '';
         checkbox.title = '';
     });
@@ -538,6 +582,9 @@ function mergeWithTeam() {
     isShowingTeamData = false;
     // Keep collaboration section visible for future uploads
     document.getElementById('viewToggle').textContent = '👥 View Team Selections';
+    
+    // Re-enable checkboxes based on name requirement
+    enableCheckboxes();
     
     showSaveStatus('success', `Merged ${mergedCount} new selections from team data!`);
 }
@@ -651,9 +698,18 @@ async function loadCoursesFromCSV() {
 
     attachToggleLogic();
     filterTable();
+    initializeCheckboxes(); // Initialize checkboxes as disabled until name is entered
 }
 
 function toggleTrackSelection(checkbox) {
+    // Check if name is provided
+    const writerName = document.getElementById('writerName').value.trim();
+    if (!writerName) {
+        checkbox.checked = false;
+        showSaveStatus('warning', 'Please enter your name first to start selecting courses.');
+        return;
+    }
+    
     // Prevent editing while viewing team data
     if (isShowingTeamData) {
         checkbox.checked = teamSelections[checkbox.dataset.course] && teamSelections[checkbox.dataset.course][checkbox.dataset.track];
