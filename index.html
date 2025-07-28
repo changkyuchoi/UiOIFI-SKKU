@@ -8,8 +8,25 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
         th { background-color: #f2f2f2; cursor: pointer; }
-        .filters { margin-bottom: 20px; }
-        .filters select { margin-right: 15px; }
+        .filters { 
+            margin-bottom: 20px; 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 15px;
+            max-width: 1200px;
+        }
+        .filters label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+        }
+        .filters select { 
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
         .course-toggle {
             background: none;
             border: none;
@@ -30,26 +47,116 @@
         .suwon-row {
     background-color: #faf8e9; /* Light yellow for Suwon */
         }
+        .active-filters {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .active-filters h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+        .filter-tag {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 4px 8px;
+            margin: 2px 4px 2px 0;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .no-filters {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .clear-filters-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+        .clear-filters-btn:hover {
+            background-color: #c82333;
+        }
+        .selected-courses {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .selected-courses h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+        .download-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .checkbox-column {
+            width: 40px;
+            text-align: center;
+        }
+        .course-checkbox {
+            cursor: pointer;
+        }
 </style>
 </head>
 <body>
 
 <h1>Recommended SKKU Courses for UiO IFI Exchange Students</h1>
-<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings via
-    <a href="https://eportal.skku.edu/" target="_blank">
-    SKKU e-portal page.
-    </a>
-</p>
 <p>This page lists selected courses at SKKU that are relevant for UiO IFI exchange students. Clicking each course number will display the corresponding course description.
 </p>
-<p>Full-time studies at SKKU are 15 credits for students at bachelor's level and 9 credits for students at master's level.</p>
-<!-- <p>For a bachelor's student, we recommend you to take major-related courses for 9 credits, 3 for the math courses, and 3 with your own interest.</p>
-<p>For a master's student, we recommend you to take major-related courses for 9 credits.</p> -->
-<p>For more information, visit 
+<p>Full-time studies at SKKU are <strong>15 credits</strong> for students at bachelor's level and <strong>9 credits</strong> for students at master's level. For more information, visit the
     <a href="https://www.uio.no/studier/utveksling/avtaler/asia/sor-korea/sungkyunkwan/mn.html" target="_blank">
-      UiO's SKKU exchange page.
+      UiO's official webpage on student exchange programs.
     </a>
 </p>
+<p>Color differentiates the campus locations. <strong>Seoul (Humanities and Social Sciences Campus, HSSC)</strong> courses are shown in light blue, while <strong>Suwon (Natural Sciences Campus, NSC)</strong> courses are in light yellow. There is 
+    <a href="https://www.skku.edu/eng/CampusLife/convenience/Shuttlebus.do" target="_blank">
+      a shuttle bus service between the two campuses.
+    </a>
+</p>
+
+<div class="selected-courses" id="selectedCourses">
+    <h4>Selected Courses:</h4>
+    <div id="selectedCoursesList">
+        <span class="no-filters">No courses selected</span>
+    </div>
+</div>
+
+<div class="active-filters" id="activeFilters">
+    <h4>Active Filters:</h4>
+    <div id="activeFilterTags">
+        <span class="no-filters">No filters selected</span>
+    </div>
+</div>
 
 <div class="filters">
     <label>Year:
@@ -61,22 +168,22 @@
     <label>Semester:
     <select id="semesterFilter">
         <option value="">All</option>
-        <option value="Autumn">Autumn</option>
         <option value="Spring">Spring</option>
+        <option value="Autumn">Autumn</option>
     </select>
     </label>
     <label>Campus:
     <select id="campusFilter">
         <option value="">All</option>
-        <option value="Suwon">Suwon (Natural Sciences Campus)</option>
-        <option value="Seoul">Seoul (Humanities and Social Sciences Campus)</option>
+        <option value="Suwon">Suwon (NSC)</option>
+        <option value="Seoul">Seoul (HSSC)</option>
         <option value="Online">Online</option>
     </select>
     </label>
-    <label>Track:
+    <label>IFI Track:
     <select id="trackFilter">
         <option value="">All</option>
-        <option value="IFI">All IFI majors</option>
+        <option value="IFI">All IFI tracks</option>
         <option value="ML">Machine Learning (ML)</option>
         <option value="PROSA">Programming and systems architecture (PROSA)</option>
         <option value="LT">Language technology (LT)</option>
@@ -85,7 +192,7 @@
         <option value="Others">Others</option>
     </select>
     </label>
-    <label>Major:
+    <label>SKKU Major:
     <select id="departmentFilter">
         <option value="">All</option>
     </select>
@@ -119,9 +226,17 @@
     </label>
 </div>
 
+<p><strong>Disclaimer:</strong> This information is intended for planning purposes. Exact course availability and details may change based on SKKU's official course offerings via
+    <a href="https://eportal.skku.edu/" target="_blank">
+    SKKU e-portal page.
+    </a>
+</p>
+
+
 <table id="courseTable">
     <thead>
     <tr>
+        <th class="checkbox-column">Select</th>
         <th>Course Number</th>
         <th>Title</th>
         <th>Year</th>
@@ -179,6 +294,8 @@ const departmentMapping = {
     WIS: "WIS: Artificial Intelligence and Interaction Science"
 };
 
+let selectedCourses = new Set();
+
 async function loadCoursesFromCSV() {
     const response = await fetch('courses2025_cleaned.csv');
     const data = await response.text();
@@ -220,6 +337,7 @@ async function loadCoursesFromCSV() {
         mainRow.className = campusClass; // Apply the class based on campus
 
         mainRow.innerHTML = `
+            <td class="checkbox-column"><input type="checkbox" class="course-checkbox" data-course="${course}" data-title="${title}" data-year="${year}" data-semester="${sem}" data-campus="${campus}" data-track="${track}" data-level="${level}" data-credits="${credits}" onchange="toggleCourseSelection(this)"></td>
             <td><button class="course-toggle" data-description="${desc}">${course}</button></td>
             <td>${title}</td>
             <td>${year}</td>
@@ -233,7 +351,7 @@ async function loadCoursesFromCSV() {
         const descRow = document.createElement('tr');
         descRow.className = "course-description-row";
         descRow.style.display = "none";
-        descRow.innerHTML = `<td colspan="8" class="course-description-cell"></td>`;
+        descRow.innerHTML = `<td colspan="9" class="course-description-cell"></td>`;
 
         tbody.appendChild(mainRow);
         tbody.appendChild(descRow);
@@ -245,6 +363,7 @@ async function loadCoursesFromCSV() {
 
     attachToggleLogic();
     filterTable();
+    updateSelectedCoursesDisplay();
 }
 
 
@@ -301,6 +420,118 @@ const filters = {
     levelCategory: document.getElementById('levelCategoryFilter')
 };
 
+function updateActiveFilters() {
+    const activeFilterTags = document.getElementById('activeFilterTags');
+    const filterLabels = {
+        year: 'Year',
+        semester: 'Semester',
+        campus: 'Campus',
+        track: 'IFI Track',
+        department: 'SKKU Major',
+        level: 'Level',
+        levelCategory: 'Level Category',
+        credits: 'Credits'
+    };
+    
+    const activeTags = [];
+    
+    Object.entries(filters).forEach(([key, filter]) => {
+        if (filter.value && filter.value !== '') {
+            let displayValue = filter.value;
+            if (key === 'department') {
+                // For department, show the short code instead of full name
+                const departmentEntry = Object.entries(departmentMapping).find(([short, full]) => 
+                    full.split(": ")[1] === filter.value
+                );
+                displayValue = departmentEntry ? departmentEntry[0] : filter.value;
+            }
+            activeTags.push(`<span class="filter-tag">${filterLabels[key]}: ${displayValue}</span>`);
+        }
+    });
+    
+    if (activeTags.length === 0) {
+        activeFilterTags.innerHTML = '<span class="no-filters">No filters selected</span>';
+    } else {
+        activeFilterTags.innerHTML = activeTags.join('') + '<button class="clear-filters-btn" onclick="clearAllFilters()">Clear All</button>';
+    }
+}
+
+function clearAllFilters() {
+    Object.values(filters).forEach(filter => {
+        filter.value = '';
+    });
+    filterTable();
+}
+
+function toggleCourseSelection(checkbox) {
+    const courseData = {
+        course: checkbox.dataset.course,
+        title: checkbox.dataset.title,
+        year: checkbox.dataset.year,
+        semester: checkbox.dataset.semester,
+        campus: checkbox.dataset.campus,
+        track: checkbox.dataset.track,
+        level: checkbox.dataset.level,
+        credits: checkbox.dataset.credits
+    };
+    
+    if (checkbox.checked) {
+        selectedCourses.add(JSON.stringify(courseData));
+    } else {
+        selectedCourses.delete(JSON.stringify(courseData));
+    }
+    
+    updateSelectedCoursesDisplay();
+}
+
+function updateSelectedCoursesDisplay() {
+    const selectedCoursesList = document.getElementById('selectedCoursesList');
+    
+    if (selectedCourses.size === 0) {
+        selectedCoursesList.innerHTML = '<span class="no-filters">No courses selected</span>';
+    } else {
+        const courseItems = Array.from(selectedCourses).map(courseJson => {
+            const course = JSON.parse(courseJson);
+            return `<span class="filter-tag">${course.course} - ${course.title}</span>`;
+        });
+        
+        selectedCoursesList.innerHTML = courseItems.join('') + 
+            `<button class="download-btn" onclick="downloadSelectedCourses()">Download CSV</button>`;
+    }
+}
+
+function downloadSelectedCourses() {
+    if (selectedCourses.size === 0) return;
+    
+    const headers = ['Course Number', 'Title', 'Year', 'Semester', 'Campus', 'Track', 'Level', 'Credits'];
+    const csvContent = [
+        headers.join(','),
+        ...Array.from(selectedCourses).map(courseJson => {
+            const course = JSON.parse(courseJson);
+            return [
+                course.course,
+                `"${course.title}"`,
+                course.year,
+                course.semester,
+                course.campus,
+                course.track,
+                course.level,
+                course.credits
+            ].join(',');
+        })
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'selected_courses.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 function filterTable() {
     const allRows = document.querySelectorAll("#courseTable tbody tr");
     allRows.forEach(row => {
@@ -310,7 +541,7 @@ function filterTable() {
             return;
         }
 
-        const course = row.children[0].textContent.trim();
+        const course = row.children[1].textContent.trim(); // Updated index due to checkbox column
         const departmentShort = course.match(/[A-Za-z]+/)[0]; // Extract short code
         const departmentFull = departmentMapping[departmentShort] || departmentShort; // Map to full name
 
@@ -321,12 +552,12 @@ function filterTable() {
                               courseLevel >= 4000 && courseLevel < 5000 ? '4xxx' :
                               '5xxx';
 
-        const year = row.children[2].textContent.trim();
-        const semester = row.children[3].textContent.trim();
-        const campus = row.children[4].textContent.trim();
-        const track = row.children[5].textContent.trim();
-        const level = row.children[6].textContent.trim();
-        const credits = row.children[7].textContent.trim();
+        const year = row.children[3].textContent.trim(); // Updated index
+        const semester = row.children[4].textContent.trim(); // Updated index
+        const campus = row.children[5].textContent.trim(); // Updated index
+        const track = row.children[6].textContent.trim(); // Updated index
+        const level = row.children[7].textContent.trim(); // Updated index
+        const credits = row.children[8].textContent.trim(); // Updated index
 
         const show = (!filters.year.value || filters.year.value === year) &&
                      (!filters.semester.value || filters.semester.value === semester) &&
@@ -340,6 +571,7 @@ function filterTable() {
         row.style.display = show ? "" : "none";
     });
 
+    updateActiveFilters();
     sortTableByCourseNumber();
 }
 
@@ -355,17 +587,17 @@ function sortTableByCourseNumber() {
 
     const visiblePairs = rowPairs.filter(pair => pair[0].style.display !== "none");
     visiblePairs.sort((a, b) => {
-        const courseA = a[0].cells[0].textContent.trim();
-        const courseB = b[0].cells[0].textContent.trim();
+        const courseA = a[0].cells[1].textContent.trim(); // Updated index due to checkbox column
+        const courseB = b[0].cells[1].textContent.trim(); // Updated index due to checkbox column
 
-        const yearA = a[0].cells[2].textContent.trim();
-        const yearB = b[0].cells[2].textContent.trim();
+        const yearA = a[0].cells[3].textContent.trim(); // Updated index
+        const yearB = b[0].cells[3].textContent.trim(); // Updated index
 
-        const semesterA = a[0].cells[3].textContent.trim();
-        const semesterB = b[0].cells[3].textContent.trim();
+        const semesterA = a[0].cells[4].textContent.trim(); // Updated index
+        const semesterB = b[0].cells[4].textContent.trim(); // Updated index
 
-        const campusA = a[0].cells[4].textContent.trim();
-        const campusB = b[0].cells[4].textContent.trim();
+        const campusA = a[0].cells[5].textContent.trim(); // Updated index
+        const campusB = b[0].cells[5].textContent.trim(); // Updated index
 
         // Sort by course number, then year, then semester, then campus
         return courseA.localeCompare(courseB) ||
