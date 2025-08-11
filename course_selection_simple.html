@@ -286,6 +286,8 @@
         <option value="PROSA">Programming and systems architecture (PROSA)</option>
         <option value="LT">Language technology (LT)</option>
         <option value="DBI">Design, Use, and Interaction (DBI)</option>
+        <option value="DS">Digital Security (DS)</option>
+        <option value="EIM">Entrepreneurship and Innovation Management (EIM)</option>
         <option value="Math">Mathematics</option>
         <option value="Others">Others</option>
     </select>
@@ -340,6 +342,8 @@
         <th class="track-header track-columns">PROSA</th>
         <th class="track-header track-columns">LT</th>
         <th class="track-header track-columns">DBI</th>
+        <th class="track-header track-columns">DS</th>
+        <th class="track-header track-columns">EIM</th>
     </tr>
     </thead>
     <tbody></tbody>
@@ -683,7 +687,7 @@ async function loadCoursesFromCSV() {
         mainRow.className = campusClass; // Apply the class based on campus
 
         // Create track checkboxes
-        const trackCheckboxes = ['All', 'ML', 'PROSA', 'LT', 'DBI'].map(trackName => {
+        const trackCheckboxes = ['All', 'ML', 'PROSA', 'LT', 'DBI', 'DS', 'EIM'].map(trackName => {
             const isChecked = trackSelections[course] && trackSelections[course][trackName] ? 'checked' : '';
             return `<td class="track-columns"><input type="checkbox" class="track-checkbox" data-course="${course}" data-track="${trackName}" ${isChecked} onchange="toggleTrackSelection(this)"></td>`;
         }).join('');
@@ -703,7 +707,7 @@ async function loadCoursesFromCSV() {
         const descRow = document.createElement('tr');
         descRow.className = "course-description-row";
         descRow.style.display = "none";
-        descRow.innerHTML = `<td colspan="13" class="course-description-cell"></td>`;
+        descRow.innerHTML = `<td colspan="15" class="course-description-cell"></td>`;
 
         tbody.appendChild(mainRow);
         tbody.appendChild(descRow);
